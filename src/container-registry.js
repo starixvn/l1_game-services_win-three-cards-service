@@ -1,0 +1,48 @@
+import awilix from "awilix";
+import { Table } from "sc-game-base";
+
+import { bets, rounds, tmpBets, results } from "./models";
+import { SettleGameRoundConsumer, PlaceBetConsumer } from "./consumers";
+import { Crons, Consumers, Publishers } from "sc-card-game-base";
+
+const { asClass, asValue } = awilix;
+
+export default class ContainerRegistry extends Table.TableContainerRegistry {
+    registerModels() {
+        super.registerModels();
+
+        this.container.register({
+            roundsRepository: asValue(rounds),
+            betsRepository: asValue(bets),
+            tempBetsRepository: asValue(tmpBets),
+            resultsRepository: asValue(results),
+        });
+    }
+
+    registerCrons() {
+        super.registerCrons();
+
+        this.container.register({
+            gameCron: asClass(Crons.GameCron).singleton().proxy(),
+        });
+    }
+
+    registerConsumers() {
+        super.registerConsumers();
+
+        this.container.register({
+            placeBetConsumer: asClass(PlaceBetConsumer).singleton(),
+            settleGameRoundConsumer: asClass(SettleGameRoundConsumer).singleton().proxy(),
+            roundResultConsumer: asClass(Consumers.RoundResultConsumer).singleton(),
+            inGameConsumer: asClass(Consumers.TableInGameConsumer).singleton(),
+        });
+    }
+
+    registerPublishers() {
+        super.registerPublishers();
+
+        this.container.register({
+            roundResultPublisher: asClass(Publishers.RoundResultPublisher).singleton(),
+        });
+    }
+}

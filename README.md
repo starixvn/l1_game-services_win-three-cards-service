@@ -1,2 +1,0 @@
-# win-three-cards-service
-
