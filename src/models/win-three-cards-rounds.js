@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const modelName = "blockchainbaccarat_rounds";
+const modelName = "winthreecards_rounds";
 
 const card = {
     value: Number,
@@ -15,22 +15,22 @@ const hand = {
 
 const settlementResultSchema = new mongoose.Schema(
     {
-        player: { type: Boolean, default: false },
-        banker: { type: Boolean, default: false },
-        big: { type: Boolean, default: false },
-        small: { type: Boolean, default: false },
+        dragon: { type: Boolean, default: false },
+        phoenix: { type: Boolean, default: false },
         tie: { type: Boolean, default: false },
-        playerPair: { type: Boolean, default: false },
-        bankerPair: { type: Boolean, default: false },
-        natural: { type: Boolean, default: false },
+        threeOfAKind: { type: Boolean, default: false },
+        straightFlush: { type: Boolean, default: false },
+        flush: { type: Boolean, default: false },
+        straight: { type: Boolean, default: false },
+        pair8Plus: { type: Boolean, default: false },
     },
     { _id: false }
 );
 
 const Schema = new mongoose.Schema({
     id: { type: Number, require: true },
-    player: { type: hand },
-    banker: { type: hand },
+    dragon: { type: hand },
+    phoenix: { type: hand },
     result: settlementResultSchema,
     time: { type: Date, default: new Date() },
     exchangeRateId: { type: Number, require: true },
