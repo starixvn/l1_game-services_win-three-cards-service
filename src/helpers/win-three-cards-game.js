@@ -1,4 +1,4 @@
-import BaccaratPlayer from "./baccarat-player";
+import WinThreeCardsPlayer from "./win-three-cards-player";
 
 const Actions = {
     receiveTwoCards: "receiveTwoCards",
@@ -7,35 +7,35 @@ const Actions = {
     finalComparison: "finalComparison",
 };
 
-class BaccaratGame {
+class WinThreeCardsGame {
     constructor(cards) {
-        this.player = new BaccaratPlayer();
-        this.banker = new BaccaratPlayer();
+        this.dragon = new WinThreeCardsPlayer();
+        this.phoenix = new WinThreeCardsPlayer();
         this.cards = cards;
     }
 
     receiveTwoCards() {
-        this.player.card1 = this.cards.shift();
-        this.banker.card1 = this.cards.shift();
-        this.player.card2 = this.cards.shift();
-        this.banker.card2 = this.cards.shift();
+        this.dragon.card1 = this.cards.shift();
+        this.phoenix.card1 = this.cards.shift();
+        this.dragon.card2 = this.cards.shift();
+        this.phoenix.card2 = this.cards.shift();
     }
 
     playerReceiveThirdCard() {
         const card = this.cards.shift();
 
-        this.player.card3 = card;
+        this.dragon.card3 = card;
     }
 
     bankerReceiveThirdCard() {
         const card = this.cards.shift();
 
-        this.banker.card3 = card;
+        this.phoenix.card3 = card;
     }
 
     finalComparison() {
         const score = this.getTotalScore();
-        const numberOfCards = this.player.getNumberOfCards() + this.banker.getNumberOfCards();
+        const numberOfCards = this.dragon.getNumberOfCards() + this.phoenix.getNumberOfCards();
 
         return {
             player: score.player > score.banker,
@@ -43,32 +43,32 @@ class BaccaratGame {
             tie: score.player === score.banker,
             big: numberOfCards === 5 || numberOfCards === 6,
             small: numberOfCards === 4,
-            playerPair: this.player.hasPair(),
-            bankerPair: this.banker.hasPair(),
+            playerPair: this.dragon.hasPair(),
+            bankerPair: this.phoenix.hasPair(),
             natural: numberOfCards === 4 && (score.player >= 8 || score.banker >= 8),
         };
     }
 
     getFinalCards() {
         return {
-            playerCards: this.player.getCards(),
-            bankerCards: this.banker.getCards(),
-            playerPoint: this.player.getTotalScore(),
-            bankerPoint: this.banker.getTotalScore(),
+            playerCards: this.dragon.getCards(),
+            bankerCards: this.phoenix.getCards(),
+            playerPoint: this.dragon.getTotalScore(),
+            bankerPoint: this.phoenix.getTotalScore(),
         };
     }
 
     getTotalScore() {
         return {
-            player: this.player.getTotalScore(),
-            banker: this.banker.getTotalScore(),
+            player: this.dragon.getTotalScore(),
+            banker: this.phoenix.getTotalScore(),
         };
     }
 
     getNumberOfCards() {
         return {
-            player: this.player.getNumberOfCards(),
-            banker: this.banker.getNumberOfCards(),
+            player: this.dragon.getNumberOfCards(),
+            banker: this.phoenix.getNumberOfCards(),
         };
     }
 
@@ -98,7 +98,7 @@ class BaccaratGame {
         }
 
         if (numberOfCards.player === 3 && numberOfCards.banker === 2) {
-            const thirdCardOfPlayer = this.player.getThirdCardValue();
+            const thirdCardOfPlayer = this.dragon.getThirdCardValue();
             const hasBankerReceiveThirdCard = this.checkBankerHasReceiveThirdCard(score, thirdCardOfPlayer);
 
             if (hasBankerReceiveThirdCard) {
@@ -122,11 +122,11 @@ class BaccaratGame {
     }
 
     setResult({ player, banker }) {
-        this.player.setCards(player);
-        this.banker.setCards(banker);
+        this.dragon.setCards(player);
+        this.phoenix.setCards(banker);
     }
 }
 
-BaccaratGame.Actions = Actions;
+WinThreeCardsGame.Actions = Actions;
 
-export default BaccaratGame;
+export default WinThreeCardsGame;

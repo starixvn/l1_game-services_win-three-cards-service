@@ -1,4 +1,4 @@
-import BaccaratGame from "./baccarat-game";
+import WinThreeCardsGame from "./win-three-cards-game";
 import * as resultHelper from "./result-helper";
 
-export { resultHelper, BaccaratGame };
+export { resultHelper, WinThreeCardsGame };

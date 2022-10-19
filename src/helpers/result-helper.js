@@ -1,19 +1,19 @@
-import BaccaratGame from "./baccarat-game";
+import WinThreeCardsGame from "./win-three-cards-game";
 import { getCardValue } from "./card-helper";
 import { Helpers } from "sc-card-game-base";
 
 const generateResult = (blockchain) => {
     const cards = Helpers.ResultHelper.getCards(blockchain, 6);
-    const baccaratGame = new BaccaratGame([...cards]);
+    const baccaratGame = new WinThreeCardsGame([...cards]);
     let action = "";
 
     do {
         action = baccaratGame.getAction();
         baccaratGame[action]();
-    } while (action !== BaccaratGame.Actions.finalComparison);
+    } while (action !== WinThreeCardsGame.Actions.finalComparison);
 
-    const usedCardsCount = baccaratGame.player.getNumberOfCards() + baccaratGame.banker.getNumberOfCards();
-    return { result: { player: baccaratGame.player, banker: baccaratGame.banker, cards: cards.slice(0, usedCardsCount) }, usedCardsCount };
+    const usedCardsCount = baccaratGame.dragon.getNumberOfCards() + baccaratGame.phoenix.getNumberOfCards();
+    return { result: { player: baccaratGame.dragon, banker: baccaratGame.phoenix, cards: cards.slice(0, usedCardsCount) }, usedCardsCount };
 };
 
 const settlementRuleEntries = Object.entries({
