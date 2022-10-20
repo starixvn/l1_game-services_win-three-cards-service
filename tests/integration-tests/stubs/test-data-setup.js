@@ -12,7 +12,7 @@ import {
 } from "sc-game-service-integration-utils";
 
 import appConfigs from "../../../src/app-configs.IGT";
-import { rounds as BaccaratRounds, bets } from "../../../src/models";
+import { rounds as WinThreeCardsRounds, bets } from "../../../src/models";
 import { currencyData, game, gameConfig, rounds, userBetData } from "./test-data";
 
 const connectDatabase = async () => {
@@ -46,17 +46,17 @@ export const createTestData = async () => {
     process.exit(0);
 };
 
-const getUserId = async (memberId) => {
-    const user = await users.findOne({ "local.memberId": memberId }, { _id: true }).lean();
+const getUserId = async (playerId) => {
+    const user = await users.findOne({ "local.playerId": playerId }, { _id: true }).lean();
     return user._id.toString();
 };
 
 const createRounds = async () => {
-    return BaccaratRounds.insertMany(rounds);
+    return WinThreeCardsRounds.insertMany(rounds);
 };
 
 const createUserBetData = async () => {
-    const userId = await getUserId(normalUser.memberId);
+    const userId = await getUserId(normalUser.playerId);
     const betData = userBetData(userId);
     return bets.insertMany(betData);
 };

@@ -13,6 +13,14 @@ const hand = {
     card3: card,
 };
 
+const resultSchema = new mongoose.Schema(
+    {
+        dragon: { type: hand },
+        phoenix: { type: hand },
+    },
+    { _id: false }
+);
+
 const settlementResultSchema = new mongoose.Schema(
     {
         dragon: { type: Boolean, default: false },
@@ -23,15 +31,15 @@ const settlementResultSchema = new mongoose.Schema(
         flush: { type: Boolean, default: false },
         straight: { type: Boolean, default: false },
         pair8Plus: { type: Boolean, default: false },
+        killer235: { type: Boolean, default: false },
     },
     { _id: false }
 );
 
 const Schema = new mongoose.Schema({
     id: { type: Number, require: true },
-    dragon: { type: hand },
-    phoenix: { type: hand },
-    result: settlementResultSchema,
+    result: resultSchema,
+    settlementResult: settlementResultSchema,
     time: { type: Date, default: new Date() },
     exchangeRateId: { type: Number, require: true },
 });

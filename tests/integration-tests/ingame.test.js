@@ -4,7 +4,7 @@ import { initUserSession } from "./init-user-session";
 
 export const ingameTest = () => {
     describe("when user joins game", () => {
-        it("should return blockchain data", (done) => {
+        it("should return gameConfigs", (done) => {
             // Arrange
             const normalUserClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
 
@@ -15,7 +15,7 @@ export const ingameTest = () => {
 
             // Assert
             normalUserClientDriver.handleInGameEvent((inGameData) => {
-                if (inGameData.gameConfigs && inGameData.blockchain) {
+                if (inGameData.gameConfigs) {
                     normalUserClientDriver.close();
                     done();
                 }

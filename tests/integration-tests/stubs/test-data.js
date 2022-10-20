@@ -8,7 +8,7 @@ const game = {
 const currencyData = { code: "USD", name: "$US" };
 
 const socketOptions = {
-    socketUri: `http://localhost:8088/user/${gameSetting.name.toLowerCase()}`,
+    socketUri: `http://localhost:5002/user/${gameSetting.name.toLowerCase()}`,
     gameName: game.name,
     proxyRoute: "/socket.io",
 };
@@ -18,25 +18,37 @@ const gameConfig = {
     name: gameSetting.name.toLowerCase(),
     minBet: 1,
     maxBet: 3000,
-    maxBetPerChoices: { even: 3000, odd: 3000, red3: 3000, white3: 3000, red4: 1000, white4: 1000, red2: 3000 },
-    odds: { even: 1.97, odd: 1.97, red3: 3.76, white3: 3.76, red4: 14.5, white4: 14.5, red2: 2.5 },
+    maxBetPerChoices: {
+        dragon: 3000,
+        phoenix: 3000,
+        pair8Plus: 3000,
+        threeOfAKind: 3000,
+        straightFlush: 1000,
+        flush: 1000,
+        straight: 3000,
+    },
+    odds: { dragon: 1.95, phoenix: 1.95, pair8Plus: 3, threeOfAKind: 121, straightFlush: 101, flush: 9, straight: 8 },
 };
 
 const rounds = [
     {
-        id: 1190119,
-        result: { red1: false, red2: false, red3: true, red4: true },
-        settlementResult: { odd: false, even: true, red2: true, red3: false, red4: false, white3: false, white4: false },
-    },
-    {
-        id: 1190118,
-        result: { red1: false, red2: true, red3: true, red4: false },
-        settlementResult: { odd: false, even: true, red2: true, red3: false, red4: false, white3: false, white4: false },
-    },
-    {
-        id: 1190117,
-        result: { red1: true, red2: false, red3: false, red4: true },
-        settlementResult: { odd: false, even: true, red2: true, red3: false, red4: false, white3: false, white4: false },
+        id: 111,
+        result: {
+            dragon: { card1: { rank: 0, suit: 0 }, card2: { rank: 0, suit: 0 }, card3: { rank: 0, suit: 0 } },
+            phoenix: { card1: { rank: 0, suit: 0 }, card2: { rank: 0, suit: 0 }, card3: { rank: 2, suit: 0 } },
+        },
+        settlementResult: {
+            dragon: true,
+            phoenix: false,
+            tie: false,
+            threeOfAKind: true,
+            straightFlush: false,
+            flush: false,
+            straight: false,
+            pair8Plus: false,
+            killer235: false,
+        },
+        exchangeRateId: 1,
     },
 ];
 
