@@ -15,10 +15,6 @@ export default class WinThreeCardsPlayer {
         }, 0);
     }
 
-    getThirdCardValue() {
-        return getCardValue(this.card3);
-    }
-
     getNumberOfCards() {
         return [this.card1, this.card2, this.card3].filter((card) => !!card).length;
     }
@@ -28,11 +24,7 @@ export default class WinThreeCardsPlayer {
     }
 
     getCards() {
-        if (this.card3) {
-            return [this.card1, this.card2, this.card3];
-        }
-
-        return [this.card1, this.card2];
+        return [this.card1, this.card2, this.card3];
     }
 
     setCards(cards) {

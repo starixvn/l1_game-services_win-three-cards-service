@@ -1,7 +1,7 @@
 import constants from "../constants";
-import { Consumers } from "sc-card-game-base";
+import { Table } from "sc-game-base";
 
-export default class SettleGameRoundConsumer extends Consumers.TableSettleGameRoundConsumer {
+export default class SettleGameRoundConsumer extends Table.EventConsumers.TableSettleGameRoundConsumer {
     calculateBetResult(settlementResult, bet, odds) {
         const { choices } = this.definition;
 

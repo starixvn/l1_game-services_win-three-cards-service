@@ -2,18 +2,19 @@ import WinThreeCardsGame from "./win-three-cards-game";
 import { getCardValue } from "./card-helper";
 import { Helpers } from "sc-card-game-base";
 
-const generateResult = (blockchain) => {
-    const cards = Helpers.ResultHelper.getCards(blockchain, 6);
+const getCards = (randomMode = 1) => {
+    console.log(Helpers.CardData.deck);
+    let cards = [...Helpers.CardData.deck];
+    cards = Helpers.ShuffleHelper.shuffle(randomMode)(cards);
+    return cards;
+};
+
+const generateResult = (mode) => {
+    const selectedMode = mode >= 1 && mode <= 3 ? mode : 1;
+    const cards = getCards(selectedMode);
     const baccaratGame = new WinThreeCardsGame([...cards]);
-    let action = "";
-
-    do {
-        action = baccaratGame.getAction();
-        baccaratGame[action]();
-    } while (action !== WinThreeCardsGame.Actions.finalComparison);
-
-    const usedCardsCount = baccaratGame.dragon.getNumberOfCards() + baccaratGame.phoenix.getNumberOfCards();
-    return { result: { player: baccaratGame.dragon, banker: baccaratGame.phoenix, cards: cards.slice(0, usedCardsCount) }, usedCardsCount };
+    baccaratGame.receiveSixCards();
+    return { result: { dragon: baccaratGame.dragon, phoenix: baccaratGame.phoenix } };
 };
 
 const settlementRuleEntries = Object.entries({
@@ -80,4 +81,4 @@ const generateRawResultForHash = ({ cards }) => {
     return rawResult;
 };
 
-export { generateResult, getSettlementResult, generateRawResultForHash };
+export { generateResult, getSettlementResult, generateRawResultForHash, getCards };
