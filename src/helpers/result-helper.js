@@ -3,7 +3,6 @@ import { getCardValue } from "./card-helper";
 import { Helpers } from "sc-card-game-base";
 
 const getCards = (randomMode = 1) => {
-    console.log(Helpers.CardData.deck);
     let cards = [...Helpers.CardData.deck];
     cards = Helpers.ShuffleHelper.shuffle(randomMode)(cards);
     return cards;
@@ -22,30 +21,6 @@ const settlementRuleEntries = Object.entries({
         const playerScore = getTotalScore(player);
         const bankerScore = getTotalScore(banker);
         return playerScore > bankerScore;
-    },
-    banker: ({ player, banker }) => {
-        const playerScore = getTotalScore(player);
-        const bankerScore = getTotalScore(banker);
-        return playerScore < bankerScore;
-    },
-    tie: ({ player, banker }) => {
-        const playerScore = getTotalScore(player);
-        const bankerScore = getTotalScore(banker);
-        return playerScore === bankerScore;
-    },
-    big: ({ player, banker }) => {
-        const numberOfCards = getNumberOfCards(player) + getNumberOfCards(banker);
-        return numberOfCards > 4;
-    },
-    small: ({ player, banker }) => {
-        const numberOfCards = getNumberOfCards(player) + getNumberOfCards(banker);
-        return numberOfCards === 4;
-    },
-    playerPair: ({ player, banker }) => hasPair(player),
-    bankerPair: ({ player, banker }) => hasPair(banker),
-    natural: ({ player, banker }) => {
-        const numberOfCards = getNumberOfCards(player) + getNumberOfCards(banker);
-        return numberOfCards === 4 && (getTotalScore(player) >= 8 || getTotalScore(banker) >= 8);
     },
 });
 
