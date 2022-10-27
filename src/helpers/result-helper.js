@@ -1,4 +1,5 @@
 import WinThreeCardsGame from "./win-three-cards-game";
+import CardCombination from "./card-combination";
 import { getCardValue } from "./card-helper";
 import { Helpers } from "sc-card-game-base";
 
@@ -32,22 +33,17 @@ const getTotalScore = (handResult) => {
     }, 0);
 };
 
-const getNumberOfCards = (handResult) => {
-    return Object.values(handResult).filter((card) => !!card).length;
-};
-
-const hasPair = (handResult) => {
-    const { card1, card2 } = handResult;
-
-    return card1.card === card2.card;
-};
-
 const getSettlementResult = (roundResult) => {
-    return settlementRuleEntries.reduce((result, [choice, rule]) => {
-        result[choice] = rule(roundResult);
+    return Object.values(roundResult).reduce((result, cardResult) => {
+        result = Object.values(cardResult).reduce((cardCompare, cards, currentIndex) => {
+            cardCompare[Object.keys(cardResult)[currentIndex]] = new CardCombination(Object.values(cards)).result;
+
+            return cardCompare;
+        }, {});
 
         return result;
     }, {});
+   
 };
 
 const generateRawResultForHash = ({ cards }) => {

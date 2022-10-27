@@ -35,17 +35,19 @@ export default class CardCombination {
             pair: {
                 condition: pair.length,
                 id: ranks.onePair,
-                cards: pair.length ? pair[0] : [],
+                cards: cards,
+                cardPair: pair.length ? pair[0] : [],
             },
             pair8Plus: {
                 condition: pairOverEight || suit || sequence || threeOfAKind.length || (suit && sequence),
                 id: ranks.onePair,
                 cards: cards,
+                cardPair: pair.length ? pair[0] : [],
             },
             highCard: {
                 condition: true,
                 id: ranks.highCard,
-                cards: [margin.max],
+                cards: cards,
             },
         };
         const result = Object.values(criterions).find((criteria) => criteria.condition);
