@@ -7,3 +7,5 @@ export const ranks = {
     onePair: 2,
     highCard: 1,
 };
+
+export const killer235 = [5, 3, 2];

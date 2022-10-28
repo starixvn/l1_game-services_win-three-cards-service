@@ -42,14 +42,14 @@ describe("ResultHelper", () => {
     });
 
     describe("getSettlementResult", () => {
-        it("check return highCard", () => {
+        it("check same HighCard return highCard", () => {
             // Arrange
             const card1 = { rank: 1, suit: 0 };
             const card2 = { rank: 2, suit: 0 };
-            const card3 = { rank: 3, suit: 0 };
-            const card4 = { rank: 4, suit: 0 };
-            const card5 = { rank: 5, suit: 0 };
-            const card6 = { rank: 6, suit: 0 };
+            const card3 = { rank: 3, suit: 1 };
+            const card4 = { rank: 4, suit: 2 };
+            const card5 = { rank: 5, suit: 2 };
+            const card6 = { rank: 6, suit: 3 };
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
@@ -60,8 +60,133 @@ describe("ResultHelper", () => {
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.dragon.id).toEqual(value);
-            expect(settlement.phoenix.id).toEqual(value);
+            expect(settlement.id).toEqual(value);
+        });
+
+        it("check Pair and High card return Pair", () => {
+            // Arrange
+            const card1 = { rank: 1, suit: 0 };
+            const card2 = { rank: 2, suit: 1 };
+            const card3 = { rank: 1, suit: 1 };
+            const card4 = { rank: 4, suit: 0 };
+            const card5 = { rank: 5, suit: 0 };
+            const card6 = { rank: 6, suit: 3 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+
+            cardSample.data = cards;
+            const value = ranks.onePair;
+
+            // Act
+            const result = generateResult();
+            const settlement = getSettlementResult(result);
+
+            // Assert
+            expect(settlement.id).toEqual(value);
+        });
+
+        it("check Three of a Kind and Straight flush return Three of a Kind", () => {
+            // Arrange
+            const card1 = { rank: 1, suit: 0 };
+            const card2 = { rank: 2, suit: 0 };
+            const card3 = { rank: 1, suit: 0 };
+            const card4 = { rank: 3, suit: 0 };
+            const card5 = { rank: 1, suit: 0 };
+            const card6 = { rank: 4, suit: 0 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+
+            cardSample.data = cards;
+            const value = ranks.threeOfAKind;
+
+            // Act
+            const result = generateResult();
+            const settlement = getSettlementResult(result);
+
+            // Assert
+            expect(settlement.id).toEqual(value);
+        });
+
+        it("check Straight Flush and Flush return Straight Flush", () => {
+            // Arrange
+            const card1 = { rank: 2, suit: 0 };
+            const card2 = { rank: 2, suit: 0 };
+            const card3 = { rank: 3, suit: 0 };
+            const card4 = { rank: 3, suit: 0 };
+            const card5 = { rank: 4, suit: 0 };
+            const card6 = { rank: 6, suit: 0 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+
+            cardSample.data = cards;
+            const value = ranks.straightFlush;
+
+            // Act
+            const result = generateResult();
+            const settlement = getSettlementResult(result);
+
+            // Assert
+            expect(settlement.id).toEqual(value);
+        });
+
+        it("check Flush and Straight return Flush", () => {
+            // Arrange
+            const card1 = { rank: 2, suit: 0 };
+            const card2 = { rank: 2, suit: 0 };
+            const card3 = { rank: 7, suit: 0 };
+            const card4 = { rank: 3, suit: 1 };
+            const card5 = { rank: 4, suit: 0 };
+            const card6 = { rank: 4, suit: 0 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+
+            cardSample.data = cards;
+            const value = ranks.flush;
+
+            // Act
+            const result = generateResult();
+            const settlement = getSettlementResult(result);
+
+            // Assert
+            expect(settlement.id).toEqual(value);
+        });
+
+        it("check High Card and 235 return  High Card", () => {
+            // Arrange
+            const card1 = { rank: 2, suit: 0 };
+            const card2 = { rank: 2, suit: 0 };
+            const card3 = { rank: 7, suit: 1 };
+            const card4 = { rank: 3, suit: 1 };
+            const card5 = { rank: 4, suit: 0 };
+            const card6 = { rank: 5, suit: 2 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+
+            cardSample.data = cards;
+            const value = ranks.highCard;
+
+            // Act
+            const result = generateResult();
+            const settlement = getSettlementResult(result);
+
+            // Assert
+            expect(settlement.id).toEqual(value);
+        });
+
+        it("check Three of a Kind and 235 return 235 (High Card)", () => {
+            // Arrange
+            const card1 = { rank: 2, suit: 0 };
+            const card2 = { rank: 2, suit: 0 };
+            const card3 = { rank: 2, suit: 1 };
+            const card4 = { rank: 3, suit: 1 };
+            const card5 = { rank: 2, suit: 2 };
+            const card6 = { rank: 5, suit: 2 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+
+            cardSample.data = cards;
+            const value = ranks.killer235;
+
+            // Act
+            const result = generateResult();
+            const settlement = getSettlementResult(result);
+
+            // Assert
+            expect(settlement.id).toEqual(value);
         });
     });
 });

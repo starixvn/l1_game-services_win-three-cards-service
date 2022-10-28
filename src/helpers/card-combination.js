@@ -9,49 +9,52 @@ export default class CardCombination {
     }
 
     getResult() {
-        const { pair, threeOfAKind, sequence, suit, cards, margin, pairOverEight } = this.metadata;
+        const { pair, threeOfAKind, sequence, suit, cards, margin, isKiller235 } = this.metadata;
 
         const criterions = {
+            threeOfAKind: {
+                condition: threeOfAKind.length,
+                id: ranks.threeOfAKind,
+                combinationCards: threeOfAKind.length ? threeOfAKind[0] : [],
+            },
             straightFlush: {
                 condition: suit && sequence,
                 id: ranks.straightFlush,
-                cards: cards,
+                combinationCards: cards,
             },
             flush: {
                 condition: suit,
                 id: ranks.flush,
-                cards: cards,
+                combinationCards: cards,
             },
             straight: {
                 condition: sequence,
                 id: ranks.straight,
-                cards: cards,
-            },
-            threeOfAKind: {
-                condition: threeOfAKind.length,
-                id: ranks.threeKind,
-                cards: threeOfAKind.length ? threeOfAKind[0] : [],
+                combinationCards: cards,
             },
             pair: {
                 condition: pair.length,
                 id: ranks.onePair,
-                cards: cards,
-                cardPair: pair.length ? pair[0] : [],
+                combinationCards: pair.length ? pair[0] : [],
             },
-            pair8Plus: {
-                condition: pairOverEight || suit || sequence || threeOfAKind.length || (suit && sequence),
-                id: ranks.onePair,
-                cards: cards,
-                cardPair: pair.length ? pair[0] : [],
-            },
+            // pair8Plus: {
+            //     condition: pairOverEight || suit || sequence || threeOfAKind.length || (suit && sequence),
+            //     id: ranks.onePair,
+            //     cards: cards,
+            //     cardPair: pair.length ? pair[0] : [],
+            // },
             highCard: {
                 condition: true,
                 id: ranks.highCard,
-                cards: cards,
+                combinationCards: [margin.max],
+                isKiller235: isKiller235,
             },
         };
         const result = Object.values(criterions).find((criteria) => criteria.condition);
         delete result.condition;
+
+        const cardFilter = (card) => !result.combinationCards.includes(card);
+        result.cards = result.combinationCards.concat(cards.filter(cardFilter));
 
         return result;
     }

@@ -1,3 +1,5 @@
+import { killer235 } from "./constants";
+
 export default class CardRule {
     constructor(cards) {
         this.cards = cards;
@@ -83,13 +85,21 @@ export default class CardRule {
         return cards.length > 0 && criterions.includes(cards[0][0].rank);
     }
 
+    checkKiller235(card) {
+        const difference = Object.values(card).filter((x) => !killer235.includes(x.rank));
+
+        return difference?.length > 0 ? false : true;
+    }
+
     combinationResult() {
         const sequence = this.sequence();
         const pair = this.rank(2);
         const margin = this.margin();
         const threeOfAKind = this.rank(3);
         const pairOverEight = this.pairOverEight();
+        const suit = this.suit(3).length > 0;
         const cards = this.cards.sort((cardA, cardB) => (cardB.rank || 13) - (cardA.rank || 13));
+        const isKiller235 = this.checkKiller235(cards);
 
         if (sequence && margin.min.rank === 1 && margin.max.rank === 0) {
             cards.push(cards.shift());
@@ -102,6 +112,8 @@ export default class CardRule {
             margin,
             pairOverEight,
             cards,
+            suit,
+            isKiller235,
         };
     }
 }
