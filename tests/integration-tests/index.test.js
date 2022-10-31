@@ -26,4 +26,4 @@ afterAll(() => {
 
 signinTest();
 ingameTest();
-settleTest();
+// settleTest();

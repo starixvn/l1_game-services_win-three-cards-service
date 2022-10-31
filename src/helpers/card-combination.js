@@ -2,7 +2,8 @@ import CardRule from "./card-rule";
 import { ranks } from "./constants";
 
 export default class CardCombination {
-    constructor(cards) {
+    constructor(cards, choice) {
+        this.choice = choice;
         this.poker = new CardRule(cards);
         this.metadata = this.poker.combinationResult();
         this.result = this.getResult();
@@ -55,6 +56,7 @@ export default class CardCombination {
 
         const cardFilter = (card) => !result.combinationCards.includes(card);
         result.cards = result.combinationCards.concat(cards.filter(cardFilter));
+        result.choice = this.choice;
 
         return result;
     }

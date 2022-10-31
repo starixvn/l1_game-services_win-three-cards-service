@@ -188,5 +188,114 @@ describe("ResultHelper", () => {
             // Assert
             expect(settlement.id).toEqual(value);
         });
+
+        it("check two Three of a Kind return Three of a Kind bigger", () => {
+            // Arrange
+            const card1 = { rank: 3, suit: 0 };
+            const card2 = { rank: 2, suit: 0 };
+            const card3 = { rank: 3, suit: 1 };
+            const card4 = { rank: 2, suit: 1 };
+            const card5 = { rank: 3, suit: 2 };
+            const card6 = { rank: 2, suit: 2 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+
+            cardSample.data = cards;
+            const value = ranks.threeOfAKind;
+
+            // Act
+            const result = generateResult();
+            const settlement = getSettlementResult(result);
+
+            // Assert
+            expect(settlement.id).toEqual(value);
+            expect(settlement.cards[0].rank).toEqual(card1.rank);
+        });
+
+        it("check two Straight Flush return Straight Flush bigger", () => {
+            // Arrange
+            const card1 = { rank: 4, suit: 0 };
+            const card2 = { rank: 7, suit: 1 };
+            const card3 = { rank: 5, suit: 0 };
+            const card4 = { rank: 8, suit: 1 };
+            const card5 = { rank: 6, suit: 0 };
+            const card6 = { rank: 9, suit: 1 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+
+            cardSample.data = cards;
+            const value = ranks.straightFlush;
+
+            // Act
+            const result = generateResult();
+            const settlement = getSettlementResult(result);
+
+            // Assert
+            expect(settlement.id).toEqual(value);
+            expect(settlement.cards[0].rank).toEqual(card6.rank);
+        });
+
+        it("check two Pair same value return Pair which one card remain bigger", () => {
+            // Arrange
+            const card1 = { rank: 4, suit: 0 };
+            const card2 = { rank: 4, suit: 1 };
+            const card3 = { rank: 4, suit: 1 };
+            const card4 = { rank: 4, suit: 0 };
+            const card5 = { rank: 6, suit: 0 };
+            const card6 = { rank: 9, suit: 2 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+
+            cardSample.data = cards;
+            const value = ranks.onePair;
+
+            // Act
+            const result = generateResult();
+            const settlement = getSettlementResult(result);
+
+            // Assert
+            expect(settlement.id).toEqual(value);
+            expect(settlement.cards[2].rank).toEqual(card6.rank);
+        });
+
+        it("check two High Card return High Card which one card remain bigger", () => {
+            // Arrange
+            const card1 = { rank: 0, suit: 0 };
+            const card2 = { rank: 0, suit: 1 };
+            const card3 = { rank: 4, suit: 1 };
+            const card4 = { rank: 4, suit: 0 };
+            const card5 = { rank: 6, suit: 2 };
+            const card6 = { rank: 9, suit: 2 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+
+            cardSample.data = cards;
+            const value = ranks.highCard;
+
+            // Act
+            const result = generateResult();
+            const settlement = getSettlementResult(result);
+
+            // Assert
+            expect(settlement.id).toEqual(value);
+            expect(settlement.cards[1].rank).toEqual(card6.rank);
+        });
+
+        it("check two High Card return tie", () => {
+            // Arrange
+            const card1 = { rank: 0, suit: 0 };
+            const card2 = { rank: 0, suit: 1 };
+            const card3 = { rank: 4, suit: 1 };
+            const card4 = { rank: 4, suit: 0 };
+            const card5 = { rank: 9, suit: 2 };
+            const card6 = { rank: 9, suit: 2 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+
+            cardSample.data = cards;
+            const value = "tie";
+
+            // Act
+            const result = generateResult();
+            const settlement = getSettlementResult(result);
+
+            // Assert
+            expect(settlement.choice).toEqual(value);
+        });
     });
 });
