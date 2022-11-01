@@ -277,7 +277,7 @@ describe("ResultHelper", () => {
             expect(settlement.cards[1].rank).toEqual(card6.rank);
         });
 
-        it("check two High Card return tie", () => {
+        it("check two High Card same rank return tie", () => {
             // Arrange
             const card1 = { rank: 0, suit: 0 };
             const card2 = { rank: 0, suit: 1 };
