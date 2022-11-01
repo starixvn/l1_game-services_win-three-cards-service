@@ -2,7 +2,7 @@ variables:
     SMOKE_PRODUCT_NAME: WinThreeCards
 
 include:
-    - project: "ci/repos-ci/pentagon_l1_blockchain_baccarat_service"
+    - project: "ci/repos-ci/pentagon_l1_win_three_cards"
       ref: master
       file: "gitlab-ci.yml"
 
