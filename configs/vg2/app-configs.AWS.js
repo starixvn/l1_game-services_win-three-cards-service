@@ -39,7 +39,7 @@ export default {
             useUnifiedTopology: true,
             auto_reconnect: true,
         },
-        url: "mongodb://lmn_backend:ilthODrRz8C4s2%5D%7B%7CLV%3Du%5D2vsf6o%5Ex0m@10.99.99.56:37101/?replicaSet=L2_Sabaaws&appName=TexasHoldemPoker",
+        url: "mongodb://lmn_backend:ilthODrRz8C4s2%5D%7B%7CLV%3Du%5D2vsf6o%5Ex0m@10.99.99.56:37101/?replicaSet=L2_Sabaaws&appName=WinThreeCards",
     },
     sentry: {
         sentryUrl: "http://b3f44a40c9ca4d7c96d59da86f37e9b7@10.99.99.187:803/107",
