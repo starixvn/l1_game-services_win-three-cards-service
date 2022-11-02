@@ -32,6 +32,7 @@ const settlementResultSchema = new mongoose.Schema(
         straight: { type: Boolean, default: false },
         pair8Plus: { type: Boolean, default: false },
         killer235: { type: Boolean, default: false },
+        highCard: { type: Boolean, default: false },
     },
     { _id: false }
 );

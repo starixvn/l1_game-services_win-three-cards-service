@@ -1,4 +1,4 @@
-import { killer235 } from "./constants";
+import { Killer235 } from "./constants";
 
 export default class CardRule {
     constructor(cards) {
@@ -86,7 +86,7 @@ export default class CardRule {
     }
 
     checkKiller235(card) {
-        const difference = Object.values(card).filter((x) => !killer235.includes(x.rank));
+        const difference = Object.values(card).filter((x) => !Killer235.includes(x.rank));
 
         return difference?.length > 0 ? false : true;
     }
@@ -100,10 +100,6 @@ export default class CardRule {
         const suit = this.suit(3).length > 0;
         const cards = this.cards.sort((cardA, cardB) => (cardB.rank || 13) - (cardA.rank || 13));
         const isKiller235 = this.checkKiller235(cards);
-
-        if (sequence && margin.min.rank === 1 && margin.max.rank === 0) {
-            cards.push(cards.shift());
-        }
 
         return {
             sequence: sequence !== false,

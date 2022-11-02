@@ -1,9 +1,9 @@
 import WinThreeCardsGame from "./win-three-cards-game";
 import CardCombination from "./card-combination";
 import { Helpers } from "sc-card-game-base";
-import { ranks } from "./constants";
+import { ranks, BetOptions } from "./constants";
 
-const getCards = (randomMode = 1) => {
+const getCards = (randomMode) => {
     let cards = [...Helpers.CardData.deck];
     cards = Helpers.ShuffleHelper.shuffle(randomMode)(cards);
     return cards;
@@ -14,8 +14,44 @@ const generateResult = (mode) => {
     const cards = getCards(selectedMode);
     const baccaratGame = new WinThreeCardsGame([...cards]);
     baccaratGame.receiveSixCards();
-    return { result: { dragon: baccaratGame.dragon, phoenix: baccaratGame.phoenix } };
+    return { result: { dragon: baccaratGame.dragon, phoenix: baccaratGame.phoenix, cards: cards.slice(0, 6) } };
 };
+
+const settlementRuleEntries = Object.entries({
+    dragon: (dragon) => {
+        return dragon.choice === BetOptions.dragon;
+    },
+    phoenix: (phoenix) => {
+        return phoenix.choice === BetOptions.phoenix;
+    },
+    tie: (cardCompare) => {
+        return cardCompare.choice !== BetOptions.dragon && cardCompare.choice !== BetOptions.phoenix;
+    },
+    threeOfAKind: (cardCompare) => {
+        return cardCompare.id === ranks.threeOfAKind || cardCompare.isPair8Plus;
+    },
+    straightFlush: (cardCompare) => {
+        return cardCompare.id === ranks.straightFlush || cardCompare.isPair8Plus;
+    },
+    flush: (cardCompare) => {
+        return cardCompare.id === ranks.flush || cardCompare.isPair8Plus;
+    },
+    straight: (cardCompare) => {
+        return cardCompare.id === ranks.straight || cardCompare.isPair8Plus;
+    },
+    pair: (cardCompare) => {
+        return cardCompare.id === ranks.onePair || cardCompare.isPair8Plus;
+    },
+    pair8Plus: (cardCompare) => {
+        return cardCompare.isPair8Plus ?? false;
+    },
+    highCard: (cardCompare) => {
+        return cardCompare.id === ranks.highCard;
+    },
+    killer235: (cardCompare) => {
+        return cardCompare.isKiller235 ?? false;
+    },
+});
 
 const getSettlementResult = (roundResult) => {
     const cardCombination = Object.values(roundResult).reduce((result, cardResult) => {
@@ -34,19 +70,18 @@ const getSettlementResult = (roundResult) => {
     const dragon = cardCombination.dragon;
     const phoenix = cardCombination.phoenix;
     const settleResult = checkCompareCombination(dragon, phoenix);
-
-    switch (settleResult) {
-        case 1:
-        case 2:
-        case 3:
-            return phoenix;
-        case -1:
-        case -2:
-        case -3:
-            return dragon;
-        case 0:
-            return { choice: "tie" };
+    let cardValidate = dragon;
+    if (settleResult > 0) {
+        cardValidate = phoenix;
+    } else if (settleResult === 0) {
+        cardValidate.choice = "tie";
     }
+
+    return settlementRuleEntries.reduce((result, [choice, rule]) => {
+        result[choice] = rule(cardValidate);
+
+        return result;
+    }, {});
 };
 
 export const checkCompareCombination = (a, b) => {
@@ -83,10 +118,4 @@ const checkCompareCombinationOtherCase = (a, b) => {
     return b.id - a.id;
 };
 
-const generateRawResultForHash = ({ cards }) => {
-    let rawResult = "{";
-    rawResult += cards.map((card) => `${Helpers.CardData.name[card.value]}${Helpers.CardData.type[card.type]}`).join(" ") + "}";
-    return rawResult;
-};
-
-export { generateResult, getSettlementResult, generateRawResultForHash, getCards };
+export { generateResult, getSettlementResult, getCards };

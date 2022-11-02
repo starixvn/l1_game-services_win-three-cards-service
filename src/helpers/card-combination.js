@@ -10,7 +10,7 @@ export default class CardCombination {
     }
 
     getResult() {
-        const { pair, threeOfAKind, sequence, suit, cards, margin, isKiller235 } = this.metadata;
+        const { pair, threeOfAKind, sequence, suit, cards, margin, isKiller235, pairOverEight } = this.metadata;
 
         const criterions = {
             threeOfAKind: {
@@ -37,13 +37,8 @@ export default class CardCombination {
                 condition: pair.length,
                 id: ranks.onePair,
                 combinationCards: pair.length ? pair[0] : [],
+                isPair8Plus: pairOverEight,
             },
-            // pair8Plus: {
-            //     condition: pairOverEight || suit || sequence || threeOfAKind.length || (suit && sequence),
-            //     id: ranks.onePair,
-            //     cards: cards,
-            //     cardPair: pair.length ? pair[0] : [],
-            // },
             highCard: {
                 condition: true,
                 id: ranks.highCard,
