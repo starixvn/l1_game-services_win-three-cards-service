@@ -28,19 +28,19 @@ const settlementRuleEntries = Object.entries({
         return cardCompare.choice !== BetOptions.dragon && cardCompare.choice !== BetOptions.phoenix;
     },
     threeOfAKind: (cardCompare) => {
-        return cardCompare.id === ranks.threeOfAKind || cardCompare.isPair8Plus;
+        return cardCompare.id === ranks.threeOfAKind || cardCompare.isPair8Plus || false;
     },
     straightFlush: (cardCompare) => {
-        return cardCompare.id === ranks.straightFlush || cardCompare.isPair8Plus;
+        return cardCompare.id === ranks.straightFlush || cardCompare.isPair8Plus || false;
     },
     flush: (cardCompare) => {
-        return cardCompare.id === ranks.flush || cardCompare.isPair8Plus;
+        return cardCompare.id === ranks.flush || cardCompare.isPair8Plus || false;
     },
     straight: (cardCompare) => {
-        return cardCompare.id === ranks.straight || cardCompare.isPair8Plus;
+        return cardCompare.id === ranks.straight || cardCompare.isPair8Plus || false;
     },
     pair: (cardCompare) => {
-        return cardCompare.id === ranks.onePair || cardCompare.isPair8Plus;
+        return cardCompare.id === ranks.onePair || cardCompare.isPair8Plus || false;
     },
     pair8Plus: (cardCompare) => {
         return cardCompare.isPair8Plus ?? false;
