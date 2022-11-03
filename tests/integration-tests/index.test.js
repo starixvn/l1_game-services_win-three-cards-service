@@ -4,7 +4,7 @@ import { ingameTest } from "./ingame.test";
 import { settleTest } from "./settle.test";
 
 let processStartService;
-const JEST_ASSERT_WAITING_RESPONSE_TIMEOUT = 50000;
+const JEST_ASSERT_WAITING_RESPONSE_TIMEOUT = 120000;
 
 beforeAll((done) => {
     jest.setTimeout(JEST_ASSERT_WAITING_RESPONSE_TIMEOUT);

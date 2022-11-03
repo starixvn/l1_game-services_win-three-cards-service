@@ -1,4 +1,4 @@
 import mongoose from "mongoose";
-import { Models } from "sc-card-game-base";
+import { Core } from "sc-game-base";
 
-export default mongoose.model("winthreecards_results", Models.ResultSchema);
+export default mongoose.model("winthreecards_results", Core.Models.ResultSchema);

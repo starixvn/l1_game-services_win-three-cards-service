@@ -5,7 +5,7 @@ import { ranks, BetOptions } from "./constants";
 
 const getCards = (randomMode) => {
     let cards = [...Helpers.CardData.deck];
-    cards = Helpers.ShuffleHelper.shuffle(randomMode)(cards);
+    cards = Helpers.ShuffleHelper.shuffle[randomMode](cards);
     return cards;
 };
 
@@ -14,7 +14,7 @@ const generateResult = (mode) => {
     const cards = getCards(selectedMode);
     const baccaratGame = new WinThreeCardsGame([...cards]);
     baccaratGame.receiveSixCards();
-    return { result: { dragon: baccaratGame.dragon, phoenix: baccaratGame.phoenix, cards: cards.slice(0, 6) } };
+    return { dragon: baccaratGame.dragon, phoenix: baccaratGame.phoenix, cards: cards.slice(0, 6) };
 };
 
 const settlementRuleEntries = Object.entries({
@@ -54,18 +54,14 @@ const settlementRuleEntries = Object.entries({
 });
 
 const getSettlementResult = (roundResult) => {
-    const cardCombination = Object.values(roundResult).reduce((result, cardResult) => {
-        result = Object.values(cardResult).reduce((cardCompare, cards, currentIndex) => {
-            cardCompare[Object.keys(cardResult)[currentIndex]] = new CardCombination(
-                Object.values(cards),
-                Object.keys(cardResult)[currentIndex]
-            ).result;
+    const cardCombination = Object.values(roundResult).reduce((cardCompare, cards, currentIndex) => {
+        cardCompare[Object.keys(roundResult)[currentIndex]] = new CardCombination(
+            Object.values(cards),
+            Object.keys(roundResult)[currentIndex]
+        ).result;
 
-            return cardCompare;
-        }, []);
-
-        return result;
-    }, {});
+        return cardCompare;
+    }, []);
 
     const dragon = cardCombination.dragon;
     const phoenix = cardCombination.phoenix;
@@ -118,4 +114,10 @@ const checkCompareCombinationOtherCase = (a, b) => {
     return b.id - a.id;
 };
 
-export { generateResult, getSettlementResult, getCards };
+const generateRawResultForHash = ({ cards }) => {
+    let rawResult = "{";
+    rawResult += cards.map((card) => `${Helpers.CardData.name[card.card]}${Helpers.CardData.type[card.type]}`).join(" ") + "}";
+    return rawResult;
+};
+
+export { generateResult, getSettlementResult, getCards, generateRawResultForHash };
