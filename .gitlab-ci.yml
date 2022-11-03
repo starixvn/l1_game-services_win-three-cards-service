@@ -12,9 +12,6 @@ unit-test-js:
   image: registry.nexdev.net:5050/docker/node:18.1-buster-slim
   artifacts:
     when: always
-    paths:
-      - ./coverage
-      - ./reports
     reports:
       junit: coverage/*.xml
       cobertura: coverage/cobertura-coverage.xml
