@@ -15,7 +15,7 @@ export const ingameTest = () => {
 
             // Assert
             normalUserClientDriver.handleInGameEvent((inGameData) => {
-                if (inGameData.gameConfigs) {
+                if (inGameData.gameConfigs && inGameData.resultHash) {
                     normalUserClientDriver.close();
                     done();
                 }

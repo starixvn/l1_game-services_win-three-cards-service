@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 const modelName = "winthreecards_rounds";
 
 const card = {
-    value: Number,
-    type: Number,
+    rank: Number,
+    suit: Number,
 };
 
 const hand = {

@@ -2,7 +2,7 @@ import { Core, Table } from "sc-game-base";
 
 import appConfigs from "./app-configs";
 import gameSettings from "./game-settings";
-import { generateResult, getSettlementResult } from "./helpers/result-helper";
+import { generateResult, getSettlementResult, generateRawResultForHash } from "./helpers/result-helper";
 import ContainerRegistry from "./container-registry";
 
 export const run = async () => {
