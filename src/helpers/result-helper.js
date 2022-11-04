@@ -116,7 +116,12 @@ const checkCompareCombinationOtherCase = (a, b) => {
 
 const generateRawResultForHash = ({ cards }) => {
     let rawResult = "{";
-    rawResult += cards.map((card) => `${Helpers.CardData.name[card.card]}${Helpers.CardData.type[card.type]}`).join(" ") + "}";
+    rawResult +=
+        cards
+            .map((card) => {
+                return `${Helpers.CardData.name[card.rank]}${Helpers.CardData.suit[card.suit]}`;
+            })
+            .join(" ") + "}";
     return rawResult;
 };
 

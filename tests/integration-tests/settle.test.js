@@ -1,11 +1,6 @@
 import { GameClientDriver, normalUser } from "sc-game-service-integration-utils";
 import { initUserSession } from "./init-user-session";
-
-const socketOptions = {
-    socketUri: `http://localhost:5002/user/${"WinThreeCards".toLowerCase()}`,
-    gameName: "WinThreeCards",
-    proxyRoute: "/socket.io",
-};
+import { socketOptions } from "./stubs/test-data";
 
 export const settleTest = () => {
     describe("when settle", () => {
@@ -18,11 +13,9 @@ export const settleTest = () => {
 
             // Assert
             client.on(socketOptions.gameName, (data) => {
-                console.log(data);
-                if (data.finish) {
-                    console.log(data);
-                    // client.close();
-                    // done();
+                if (data.finish && data.resultHash) {
+                    client.close();
+                    done();
                 }
             });
         });
