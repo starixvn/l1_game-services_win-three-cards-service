@@ -202,13 +202,36 @@ describe("ResultHelper", () => {
             expect(settlement.dragon).toEqual(expected);
             expect(settlement.highCard).toEqual(expected);
         });
+        
 
         it("check Dragon Three of a Kind and Phoenix 235 return Phoenix win", () => {
             // Arrange
             const card1 = { rank: 2, suit: 0 };
-            const card2 = { rank: 2, suit: 0 };
+            const card2 = { rank: 1, suit: 0 };
             const card3 = { rank: 2, suit: 1 };
-            const card4 = { rank: 3, suit: 1 };
+            const card4 = { rank: 4, suit: 1 };
+            const card5 = { rank: 2, suit: 2 };
+            const card6 = { rank: 2, suit: 2 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+
+            cardSample.data = cards;
+            const expected = true;
+
+            // Act
+            const result = generateResult();
+            const settlement = getSettlementResult(result);
+
+            // Assert
+            expect(settlement.phoenix).toEqual(expected);
+            expect(settlement.killer235).toEqual(expected);
+        });
+
+        it("check Dragon 235 and Phoenix Three of a Kind return Dragon win", () => {
+            // Arrange
+            const card1 = { rank: 1, suit: 0 };
+            const card2 = { rank: 5, suit: 0 };
+            const card3 = { rank: 4, suit: 1 };
+            const card4 = { rank: 5, suit: 1 };
             const card5 = { rank: 2, suit: 2 };
             const card6 = { rank: 5, suit: 2 };
             const cards = [card1, card2, card3, card4, card5, card6];
@@ -221,7 +244,7 @@ describe("ResultHelper", () => {
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.phoenix).toEqual(expected);
+            expect(settlement.dragon).toEqual(expected);
             expect(settlement.killer235).toEqual(expected);
         });
 

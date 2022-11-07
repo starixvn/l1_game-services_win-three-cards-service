@@ -8,7 +8,6 @@ export const ranks = {
     highCard: 1,
 };
 
-export const Killer235 = [5, 3, 2];
 export const BetOptions = {
     dragon: "dragon",
     phoenix: "phoenix",
