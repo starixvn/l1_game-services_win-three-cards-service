@@ -7,11 +7,12 @@ jest.mock("sc-card-game-base", () => {
     const originalModule = {
         ...jest.requireActual("sc-card-game-base"),
     };
+    const _shuffle = (_) => cardSample.data;
 
     return {
         Helpers: {
             CardData: { deck: originalModule.Helpers.CardData.deck },
-            ShuffleHelper: { shuffle: { 1: (_) => cardSample.data, 2: (_) => cardSample.data, 3: (_) => cardSample.data } },
+            ShuffleHelper: { shuffle: { 1: _shuffle, 2: _shuffle, 3: _shuffle } },
         },
     };
 });
