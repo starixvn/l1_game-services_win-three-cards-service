@@ -1,4 +1,4 @@
-import { generateResult, getSettlementResult } from "../../../src/helpers/result-helper";
+import { generateResult, getSettlementResult, generateRawResultForHash } from "../../../src/helpers/result-helper";
 
 const cardSample = {
     data: null,
@@ -202,7 +202,6 @@ describe("ResultHelper", () => {
             expect(settlement.dragon).toEqual(expected);
             expect(settlement.highCard).toEqual(expected);
         });
-        
 
         it("check Dragon Three of a Kind and Phoenix 235 return Phoenix win", () => {
             // Arrange
@@ -424,6 +423,26 @@ describe("ResultHelper", () => {
             // Assert
             expect(settlement.dragon).toEqual(expected);
             expect(settlement.straight).toEqual(expected);
+        });
+    });
+
+    describe("generate RawResultForHash", () => {
+        it("check return true", () => {
+            // Arrange
+            const card1 = { rank: 0, suit: 0 };
+            const card2 = { rank: 10, suit: 1 };
+            const card3 = { rank: 1, suit: 2 };
+            const card4 = { rank: 11, suit: 3 };
+            const card5 = { rank: 2, suit: 0 };
+            const card6 = { rank: 12, suit: 1 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+            const expected = "{A♥ J♦ 2♣ Q♠ 3♥ K♦}";
+
+            // Act
+            const actual = generateRawResultForHash({ cards });
+
+            // Assert
+            expect(actual).toStrictEqual(expected);
         });
     });
 });

@@ -1,7 +1,7 @@
 import WinThreeCardsGame from "./win-three-cards-game";
 import CardCombination from "./card-combination";
 import { Helpers } from "sc-card-game-base";
-import { ranks, BetOptions } from "./constants";
+import { ranks, BetOptions, Names, Suits } from "./constants";
 
 const getCards = (randomMode) => {
     let cards = [...Helpers.CardData.deck];
@@ -119,7 +119,7 @@ const generateRawResultForHash = ({ cards }) => {
     rawResult +=
         cards
             .map((card) => {
-                return `${Helpers.CardData.name[card.rank]}${Helpers.CardData.suit[card.suit]}`;
+                return `${Names[card.rank]}${Suits[card.suit]}`;
             })
             .join(" ") + "}";
     return rawResult;
