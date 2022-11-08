@@ -62,10 +62,6 @@ export const placeBetTest = () => {
             client.on(socketOptions.gameName, (inGameData) => {
                 if (inGameData.remainingTime && !receivedRemainingTime) {
                     receivedRemainingTime = true;
-                    console.log(
-                        getTimeOutToBet(inGameData.remainingTime, gameSettings.durations) * 1000,
-                        "getTimeOutToBet(inGameData.remainingTime, gameSettings.durations) * 1000"
-                    );
                     setTimeout(() => {
                         client.emit(eventTypes.bet, { betChoice: "dragon", amount: 123 });
                     }, getTimeOutToBet(inGameData.remainingTime, gameSettings.durations) * 1000);
