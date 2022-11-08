@@ -6,7 +6,7 @@ export default class SettleGameRoundConsumer extends Table.EventConsumers.TableS
         const { choices } = this.definition;
 
         const betResult = Object.entries(settlementResult)
-            .filter(([choice, win]) => choices.includes(choice))
+            .filter(([choice, _]) => choices.includes(choice))
             .reduce(
                 (result, [choice, win]) => {
                     if (choice === constants.choiceNames.tie && win) {
@@ -17,9 +17,10 @@ export default class SettleGameRoundConsumer extends Table.EventConsumers.TableS
                         result.totalWin += refund;
                     }
 
-                    const betAmount = bet[choice];
+                    const betAmount = bet[choice] ?? 0;
                     const originalOdds = odds[choice] || 1;
-                    const winAmount = win ? betAmount * originalOdds : 0;
+                    const effectiveOdds = bet.freeBet ? originalOdds - 1 : originalOdds;
+                    const winAmount = win ? betAmount * effectiveOdds : 0;
 
                     result.totalBetAmount += betAmount;
                     result.totalWin += winAmount;

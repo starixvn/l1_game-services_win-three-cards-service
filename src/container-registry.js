@@ -2,7 +2,7 @@ import awilix from "awilix";
 import { Table } from "sc-game-base";
 
 import { bets, rounds, tmpBets, results } from "./models";
-import { SettleGameRoundConsumer, PlaceBetConsumer, RoundResultConsumer } from "./consumers";
+import { SettleGameRoundConsumer, PlaceBetConsumer } from "./consumers";
 
 const { asClass, asValue } = awilix;
 
@@ -24,7 +24,6 @@ export default class ContainerRegistry extends Table.TableContainerRegistry {
         this.container.register({
             placeBetConsumer: asClass(PlaceBetConsumer).singleton(),
             settleGameRoundConsumer: asClass(SettleGameRoundConsumer).singleton().proxy(),
-            roundResultConsumer: asClass(RoundResultConsumer).singleton(),
         });
     }
 }
