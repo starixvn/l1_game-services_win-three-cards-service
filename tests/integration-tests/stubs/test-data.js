@@ -35,7 +35,7 @@ const rounds = [
         id: 111,
         result: {
             dragon: { card1: { rank: 0, suit: 0 }, card2: { rank: 0, suit: 0 }, card3: { rank: 0, suit: 0 } },
-            phoenix: { card1: { rank: 0, suit: 0 }, card2: { rank: 0, suit: 0 }, card3: { rank: 2, suit: 0 } },
+            phoenix: { card1: { rank: 0, suit: 1 }, card2: { rank: 0, suit: 2 }, card3: { rank: 2, suit: 0 } },
         },
         settlementResult: {
             dragon: true,
@@ -55,7 +55,7 @@ const rounds = [
 const userBetData = (uid) => {
     return [
         {
-            roundId: 1190119,
+            roundId: 111,
             uid: uid,
             betwin: 0,
             currency: "$US",
@@ -70,11 +70,11 @@ const userBetData = (uid) => {
             choice: "dragon",
         },
         {
-            roundId: 1190120,
+            roundId: 111,
             uid: uid,
             betwin: 0,
             currency: "$US",
-            phoenix: 100,
+            threeOfAKind: 100,
             name: "NormalUser",
             odd: 0,
             odds: gameConfig.odds,
@@ -82,7 +82,7 @@ const userBetData = (uid) => {
             rate: 1,
             siteId: "111",
             paid: true,
-            choice: "phoenix",
+            choice: "threeOfAKind",
         },
     ];
 };

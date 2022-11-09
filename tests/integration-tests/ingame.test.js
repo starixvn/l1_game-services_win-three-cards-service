@@ -6,17 +6,17 @@ export const ingameTest = () => {
     describe("when user joins game", () => {
         it("should return gameConfigs", (done) => {
             // Arrange
-            const normalUserClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
+            const client = new GameClientDriver(socketOptions, initUserSession(normalUser));
 
             // Act
-            normalUserClientDriver.handleSignedInEvent(() => {
-                normalUserClientDriver.sendInGameEvent();
+            client.handleSignedInEvent(() => {
+                client.sendInGameEvent();
             });
 
             // Assert
-            normalUserClientDriver.handleInGameEvent((inGameData) => {
+            client.handleInGameEvent((inGameData) => {
                 if (inGameData.gameConfigs && inGameData.resultHash) {
-                    normalUserClientDriver.close();
+                    client.close();
                     done();
                 }
             });

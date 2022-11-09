@@ -6,12 +6,11 @@ export const signinTest = () => {
     describe("signin", () => {
         it("should receive signed in response", (done) => {
             // Arrange & Act
-            const normalUserClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
+            const client = new GameClientDriver(socketOptions, initUserSession(normalUser));
 
-            console.log(normalUserClientDriver);
             // Assert
-            normalUserClientDriver.handleSignedInEvent(() => {
-                normalUserClientDriver.close();
+            client.handleSignedInEvent(() => {
+                client.close();
                 done();
             });
         });

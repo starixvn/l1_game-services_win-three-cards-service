@@ -23,9 +23,6 @@ export const startServiceProcess = (onServiceStarted) => {
     const serviceProcess = spawn("node", [
         "--es-module-specifier-resolution=node",
         "./tests/integration-tests/game-service-setup/game-service-app.js",
-        {
-            stdio: ["pipe", "pipe", "pipe", "ipc"],
-        },
     ]);
 
     serviceProcess.stdout.on("data", (data) => {
