@@ -3,17 +3,11 @@ import { generateResult, getSettlementResult, generateRawResultForHash } from ".
 const cardSample = {
     data: null,
 };
-jest.mock("sc-card-game-base", () => {
-    const originalModule = {
-        ...jest.requireActual("sc-card-game-base"),
-    };
-    const _shuffle = (_) => cardSample.data;
 
+jest.mock("../../../src/helpers/shuffle-helper", () => {
+    const _shuffle = (_) => cardSample.data;
     return {
-        Helpers: {
-            CardData: { deck: originalModule.Helpers.CardData.deck },
-            ShuffleHelper: { shuffle: { 1: _shuffle, 2: _shuffle, 3: _shuffle } },
-        },
+        shuffle: { 1: _shuffle, 2: _shuffle, 3: _shuffle },
     };
 });
 
@@ -30,7 +24,6 @@ describe("ResultHelper", () => {
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
-
             // Act
             const result = generateResult();
 

@@ -1,13 +1,13 @@
 import WinThreeCardsGame from "./win-three-cards-game";
 import CardCombination from "./card-combination";
-import { Helpers } from "sc-card-game-base";
-import { ranks, BetOptions, Names, Suits } from "./constants";
+import { ranks, betOptions, names, suits, deck } from "./constants";
+import { shuffle } from "./shuffle-helper";
 
-const getCards = (randomMode) => {
-    let cards = [...Helpers.CardData.deck];
-    cards = Helpers.ShuffleHelper.shuffle[randomMode](cards);
+function getCards(randomMode) {
+    let cards = [...deck];
+    cards = shuffle[randomMode](cards);
     return cards;
-};
+}
 
 const generateResult = (mode) => {
     const selectedMode = mode >= 1 && mode <= 3 ? mode : 1;
@@ -19,13 +19,13 @@ const generateResult = (mode) => {
 
 const settlementRuleEntries = Object.entries({
     dragon: (dragon) => {
-        return dragon.choice === BetOptions.dragon;
+        return dragon.choice === betOptions.dragon;
     },
     phoenix: (phoenix) => {
-        return phoenix.choice === BetOptions.phoenix;
+        return phoenix.choice === betOptions.phoenix;
     },
     tie: (cardCompare) => {
-        return cardCompare.choice !== BetOptions.dragon && cardCompare.choice !== BetOptions.phoenix;
+        return cardCompare.choice !== betOptions.dragon && cardCompare.choice !== betOptions.phoenix;
     },
     threeOfAKind: (cardCompare) => {
         return cardCompare.id === ranks.threeOfAKind || cardCompare.isPair8Plus || false;
@@ -119,7 +119,7 @@ const generateRawResultForHash = ({ cards }) => {
     rawResult +=
         cards
             .map((card) => {
-                return `${Names[card.rank]}${Suits[card.suit]}`;
+                return `${names[card.rank]}${suits[card.suit]}`;
             })
             .join(" ") + "}";
     return rawResult;
