@@ -13,10 +13,15 @@ const hand = {
     card3: card,
 };
 
+const handInfo = {
+    cards: hand,
+    id: { type: Number, require: true },
+};
+
 const resultSchema = new mongoose.Schema(
     {
-        dragon: { type: hand },
-        phoenix: { type: hand },
+        dragon: handInfo,
+        phoenix: handInfo,
     },
     { _id: false }
 );

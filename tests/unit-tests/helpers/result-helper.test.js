@@ -28,12 +28,12 @@ describe("ResultHelper", () => {
             const result = generateResult();
 
             // Assert
-            expect(result.dragon.card1).toEqual(card1);
-            expect(result.phoenix.card1).toEqual(card2);
-            expect(result.dragon.card2).toEqual(card3);
-            expect(result.phoenix.card2).toEqual(card4);
-            expect(result.dragon.card3).toEqual(card5);
-            expect(result.phoenix.card3).toEqual(card6);
+            expect(result.dragon.cards.card1).toEqual(card1);
+            expect(result.phoenix.cards.card1).toEqual(card2);
+            expect(result.dragon.cards.card2).toEqual(card3);
+            expect(result.phoenix.cards.card2).toEqual(card4);
+            expect(result.dragon.cards.card3).toEqual(card5);
+            expect(result.phoenix.cards.card3).toEqual(card6);
         });
     });
 
@@ -54,12 +54,12 @@ describe("ResultHelper", () => {
             const result = generateResult(mode);
 
             // Assert
-            expect(result.dragon.card1).toEqual(card1);
-            expect(result.phoenix.card1).toEqual(card2);
-            expect(result.dragon.card2).toEqual(card3);
-            expect(result.phoenix.card2).toEqual(card4);
-            expect(result.dragon.card3).toEqual(card5);
-            expect(result.phoenix.card3).toEqual(card6);
+            expect(result.dragon.cards.card1).toEqual(card1);
+            expect(result.phoenix.cards.card1).toEqual(card2);
+            expect(result.dragon.cards.card2).toEqual(card3);
+            expect(result.phoenix.cards.card2).toEqual(card4);
+            expect(result.dragon.cards.card3).toEqual(card5);
+            expect(result.phoenix.cards.card3).toEqual(card6);
         });
     });
 

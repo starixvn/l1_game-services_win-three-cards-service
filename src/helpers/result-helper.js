@@ -14,7 +14,29 @@ const generateResult = (mode) => {
     const cards = getCards(selectedMode);
     const baccaratGame = new WinThreeCardsGame([...cards]);
     baccaratGame.receiveSixCards();
-    return { dragon: baccaratGame.dragon, phoenix: baccaratGame.phoenix, cards: cards.slice(0, 6) };
+    const cardCombination = getCardCombination({ dragon: baccaratGame.dragon, phoenix: baccaratGame.phoenix });
+    return {
+        dragon: {
+            cards: baccaratGame.dragon,
+            id: cardCombination.dragon.id,
+        },
+        phoenix: {
+            cards: baccaratGame.phoenix,
+            id: cardCombination.phoenix.id,
+        },
+        cards: cards.slice(0, 6),
+    };
+};
+
+const getCardCombination = (roundResult) => {
+    return Object.values(roundResult).reduce((cardCompare, cards, currentIndex) => {
+        cardCompare[Object.keys(roundResult)[currentIndex]] = new CardCombination(
+            Object.values(cards),
+            Object.keys(roundResult)[currentIndex]
+        ).result;
+
+        return cardCompare;
+    }, []);
 };
 
 const settlementRuleEntries = Object.entries({
@@ -54,15 +76,7 @@ const settlementRuleEntries = Object.entries({
 });
 
 const getSettlementResult = (roundResult) => {
-    const cardCombination = Object.values(roundResult).reduce((cardCompare, cards, currentIndex) => {
-        cardCompare[Object.keys(roundResult)[currentIndex]] = new CardCombination(
-            Object.values(cards),
-            Object.keys(roundResult)[currentIndex]
-        ).result;
-
-        return cardCompare;
-    }, []);
-
+    const cardCombination = getCardCombination({ dragon: roundResult.dragon.cards, phoenix: roundResult.phoenix.cards });
     const dragon = cardCombination.dragon;
     const phoenix = cardCombination.phoenix;
     const settleResult = checkCompareCombination(dragon, phoenix);
