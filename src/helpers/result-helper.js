@@ -18,11 +18,11 @@ const generateResult = (mode) => {
     return {
         dragon: {
             cards: baccaratGame.dragon,
-            id: cardCombination.dragon.id,
+            handRankId: cardCombination.dragon.handRankId,
         },
         phoenix: {
             cards: baccaratGame.phoenix,
-            id: cardCombination.phoenix.id,
+            handRankId: cardCombination.phoenix.handRankId,
         },
         cards: cards.slice(0, 6),
     };
@@ -50,25 +50,25 @@ const settlementRuleEntries = Object.entries({
         return cardCompare.choice !== betOptions.dragon && cardCompare.choice !== betOptions.phoenix;
     },
     threeOfAKind: (cardCompare) => {
-        return cardCompare.id === ranks.threeOfAKind || cardCompare.isPair8Plus || false;
+        return cardCompare.handRankId === ranks.threeOfAKind || cardCompare.isPair8Plus || false;
     },
     straightFlush: (cardCompare) => {
-        return cardCompare.id === ranks.straightFlush || cardCompare.isPair8Plus || false;
+        return cardCompare.handRankId === ranks.straightFlush || cardCompare.isPair8Plus || false;
     },
     flush: (cardCompare) => {
-        return cardCompare.id === ranks.flush || cardCompare.isPair8Plus || false;
+        return cardCompare.handRankId === ranks.flush || cardCompare.isPair8Plus || false;
     },
     straight: (cardCompare) => {
-        return cardCompare.id === ranks.straight || cardCompare.isPair8Plus || false;
+        return cardCompare.handRankId === ranks.straight || cardCompare.isPair8Plus || false;
     },
     pair: (cardCompare) => {
-        return cardCompare.id === ranks.onePair || cardCompare.isPair8Plus || false;
+        return cardCompare.handRankId === ranks.onePair || cardCompare.isPair8Plus || false;
     },
     pair8Plus: (cardCompare) => {
         return cardCompare.isPair8Plus ?? false;
     },
     highCard: (cardCompare) => {
-        return cardCompare.id === ranks.highCard;
+        return cardCompare.handRankId === ranks.highCard;
     },
     killer235: (cardCompare) => {
         return cardCompare.isKiller235 ?? false;
@@ -95,7 +95,7 @@ const getSettlementResult = (roundResult) => {
 };
 
 export const checkCompareCombination = (a, b) => {
-    if (a.id === b.id) {
+    if (a.handRankId === b.handRankId) {
         for (let index = 0; index < a.combinationCards.length; index++) {
             const rankA = a.combinationCards[index].rank || 13;
             const rankB = b.combinationCards[index].rank || 13;
@@ -117,15 +117,15 @@ export const checkCompareCombination = (a, b) => {
 };
 
 const checkCompareCombinationOtherCase = (a, b) => {
-    if (a.id === ranks.highCard && a.isKiller235 && b.id === ranks.threeOfAKind) {
-        a.id = ranks.killer235;
+    if (a.handRankId === ranks.highCard && a.isKiller235 && b.handRankId === ranks.threeOfAKind) {
+        a.handRankId = ranks.killer235;
     }
 
-    if (b.id === ranks.highCard && b.isKiller235 && a.id === ranks.threeOfAKind) {
-        b.id = ranks.killer235;
+    if (b.handRankId === ranks.highCard && b.isKiller235 && a.handRankId === ranks.threeOfAKind) {
+        b.handRankId = ranks.killer235;
     }
 
-    return b.id - a.id;
+    return b.handRankId - a.handRankId;
 };
 
 const generateRawResultForHash = ({ cards }) => {

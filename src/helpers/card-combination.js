@@ -15,33 +15,33 @@ export default class CardCombination {
         const criterions = {
             threeOfAKind: {
                 condition: threeOfAKind.length,
-                id: ranks.threeOfAKind,
+                handRankId: ranks.threeOfAKind,
                 combinationCards: threeOfAKind.length ? threeOfAKind[0] : [],
             },
             straightFlush: {
                 condition: suit && sequence,
-                id: ranks.straightFlush,
+                handRankId: ranks.straightFlush,
                 combinationCards: cards,
             },
             flush: {
                 condition: suit,
-                id: ranks.flush,
+                handRankId: ranks.flush,
                 combinationCards: cards,
             },
             straight: {
                 condition: sequence,
-                id: ranks.straight,
+                handRankId: ranks.straight,
                 combinationCards: cards,
             },
             pair: {
                 condition: pair.length,
-                id: ranks.onePair,
+                handRankId: ranks.onePair,
                 combinationCards: pair.length ? pair[0] : [],
                 isPair8Plus: pairOverEight,
             },
             highCard: {
                 condition: true,
-                id: ranks.highCard,
+                handRankId: ranks.highCard,
                 combinationCards: [margin.max],
                 isKiller235: isExist235,
             },
