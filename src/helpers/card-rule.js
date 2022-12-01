@@ -102,7 +102,7 @@ export default class CardRule {
         const pairOverEight = this.pairOverEight();
         const suit = this.suit(3).length > 0;
         const cards = this.sortCards(this.cards);
-        const isExist235 = this.checkExist235(cards);
+        const isKiller235 = this.checkExist235(cards) && (this.suit(2).length > 0 || this.suit(3).length === 0);
 
         return {
             sequence: sequence !== false,
@@ -112,7 +112,7 @@ export default class CardRule {
             pairOverEight,
             cards,
             suit,
-            isExist235,
+            isKiller235,
         };
     }
 }

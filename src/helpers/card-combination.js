@@ -10,7 +10,7 @@ export default class CardCombination {
     }
 
     getResult() {
-        const { pair, threeOfAKind, sequence, suit, cards, margin, isExist235, pairOverEight } = this.metadata;
+        const { pair, threeOfAKind, sequence, suit, cards, margin, isKiller235, pairOverEight } = this.metadata;
 
         const criterions = {
             threeOfAKind: {
@@ -43,7 +43,7 @@ export default class CardCombination {
                 condition: true,
                 handRankId: ranks.highCard,
                 combinationCards: [margin.max],
-                isKiller235: isExist235,
+                isKiller235: isKiller235,
             },
         };
         const result = Object.values(criterions).find((criteria) => criteria.condition);
