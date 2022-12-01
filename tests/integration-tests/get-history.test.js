@@ -15,7 +15,6 @@ export const getHistoryTest = () => {
                 {
                     dragon: 0,
                     phoenix: 0,
-                    tie: 0,
                     threeOfAKind: 100,
                     straightFlush: 0,
                     flush: 0,
@@ -33,7 +32,6 @@ export const getHistoryTest = () => {
                 {
                     dragon: 100,
                     phoenix: 0,
-                    tie: 0,
                     threeOfAKind: 0,
                     straightFlush: 0,
                     flush: 0,

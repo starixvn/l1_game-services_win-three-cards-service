@@ -7,7 +7,6 @@ const bet = {
 
     dragon: { type: Number, default: 0 },
     phoenix: { type: Number, default: 0 },
-    tie: { type: Number, default: 0 },
     threeOfAKind: { type: Number, default: 0 },
     straightFlush: { type: Number, default: 0 },
     flush: { type: Number, default: 0 },

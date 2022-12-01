@@ -34,8 +34,14 @@ const rounds = [
     {
         id: 111,
         result: {
-            dragon: { card1: { rank: 0, suit: 0 }, card2: { rank: 0, suit: 0 }, card3: { rank: 0, suit: 0 } },
-            phoenix: { card1: { rank: 0, suit: 1 }, card2: { rank: 0, suit: 2 }, card3: { rank: 2, suit: 0 } },
+            dragon: {
+                cards: { card1: { rank: 0, suit: 0 }, card2: { rank: 0, suit: 0 }, card3: { rank: 0, suit: 0 } },
+                handRankId: 1,
+            },
+            phoenix: {
+                cards: { card1: { rank: 0, suit: 1 }, card2: { rank: 0, suit: 2 }, card3: { rank: 2, suit: 0 } },
+                handRankId: 0,
+            },
         },
         settlementResult: {
             dragon: true,
