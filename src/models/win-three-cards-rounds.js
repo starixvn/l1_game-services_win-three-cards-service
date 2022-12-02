@@ -16,6 +16,7 @@ const hand = {
 const handInfo = {
     cards: hand,
     handRankId: { type: Number, require: true },
+    cardRankId: { type: Number, require: true },
 };
 
 const resultSchema = new mongoose.Schema(

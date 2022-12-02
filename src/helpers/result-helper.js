@@ -3,40 +3,65 @@ import CardCombination from "./card-combination";
 import { ranks, betOptions, names, suits, deck } from "./constants";
 import { shuffle } from "./shuffle-helper";
 
-function getCards(randomMode) {
-    let cards = [...deck];
-    cards = shuffle[randomMode](cards);
-    return cards;
-}
-
 const generateResult = (mode) => {
     const selectedMode = mode >= 1 && mode <= 3 ? mode : 1;
     const cards = getCards(selectedMode);
     const baccaratGame = new WinThreeCardsGame([...cards]);
     baccaratGame.receiveSixCards();
     const cardCombination = getCardCombination({ dragon: baccaratGame.dragon, phoenix: baccaratGame.phoenix });
+    const cardCombinationFinal = checkHandRankIDRule235(cardCombination.dragon, cardCombination.phoenix);
+    const dragonData = cardCombinationFinal.dragon;
+    const phoenixData = cardCombinationFinal.phoenix;
+
     return {
         dragon: {
             cards: baccaratGame.dragon,
-            handRankId: cardCombination.dragon.handRankId,
+            handRankId: dragonData.handRankId,
+            cardRankId: getCardRankId(dragonData.handRankId, dragonData),
         },
         phoenix: {
             cards: baccaratGame.phoenix,
-            handRankId: cardCombination.phoenix.handRankId,
+            handRankId: phoenixData.handRankId,
+            cardRankId: getCardRankId(phoenixData.handRankId, phoenixData),
         },
         cards: cards.slice(0, 6),
     };
 };
 
-const getCardCombination = (roundResult) => {
-    return Object.values(roundResult).reduce((cardCompare, cards, currentIndex) => {
-        cardCompare[Object.keys(roundResult)[currentIndex]] = new CardCombination(
-            Object.values(cards),
-            Object.keys(roundResult)[currentIndex]
-        ).result;
+const getSettlementResult = (roundResult) => {
+    const cardCombination = getCardCombination({ dragon: roundResult.dragon.cards, phoenix: roundResult.phoenix.cards });
+    const dragon = cardCombination.dragon;
+    const phoenix = cardCombination.phoenix;
+    const settleResult = checkCompareCombination(dragon, phoenix);
+    let cardValidate = dragon;
+    if (settleResult > 0) {
+        cardValidate = phoenix;
+    } else if (settleResult === 0) {
+        cardValidate.choice = "tie";
+    }
 
-        return cardCompare;
-    }, []);
+    return settlementRuleEntries.reduce((result, [choice, rule]) => {
+        result[choice] = rule(cardValidate);
+
+        return result;
+    }, {});
+};
+
+const getCards = (randomMode) => {
+    let cards = [...deck];
+    cards = shuffle[randomMode](cards);
+    return cards;
+};
+
+const generateRawResultForHash = ({ cards }) => {
+    let rawResult = "{";
+    rawResult +=
+        cards
+            .map((card) => {
+                return `${names[card.rank]}${suits[card.suit]}`;
+            })
+            .join(" ") + "}";
+    return rawResult;
 };
 
 const settlementRuleEntries = Object.entries({
@@ -75,37 +100,46 @@ const settlementRuleEntries = Object.entries({
     },
 });
 
-const getSettlementResult = (roundResult) => {
-    const cardCombination = getCardCombination({ dragon: roundResult.dragon.cards, phoenix: roundResult.phoenix.cards });
-    const dragon = cardCombination.dragon;
-    const phoenix = cardCombination.phoenix;
-    const settleResult = checkCompareCombination(dragon, phoenix);
-    let cardValidate = dragon;
-    if (settleResult > 0) {
-        cardValidate = phoenix;
-    } else if (settleResult === 0) {
-        cardValidate.choice = "tie";
-    }
+const getCardCombination = (roundResult) => {
+    return Object.values(roundResult).reduce((cardCompare, cards, currentIndex) => {
+        cardCompare[Object.keys(roundResult)[currentIndex]] = new CardCombination(
+            Object.values(cards),
+            Object.keys(roundResult)[currentIndex]
+        ).result;
 
-    return settlementRuleEntries.reduce((result, [choice, rule]) => {
-        result[choice] = rule(cardValidate);
-
-        return result;
-    }, {});
+        return cardCompare;
+    }, []);
 };
 
-export const checkCompareCombination = (a, b) => {
-    if (a.handRankId === b.handRankId) {
-        for (let index = 0; index < a.combinationCards.length; index++) {
-            const rankA = a.combinationCards[index].rank || 13;
-            const rankB = b.combinationCards[index].rank || 13;
+const getCardRankId = (rankId, cardCompare) => {
+    switch (rankId) {
+        case ranks.threeOfAKind:
+        case ranks.straightFlush:
+        case ranks.straight:
+        case ranks.flush:
+        case ranks.killer235:
+            return -1;
+
+        case ranks.onePair:
+            return cardCompare.combinationCards[0].rank;
+
+        default:
+            return cardCompare.combinationCards[0].rank;
+    }
+};
+
+export const checkCompareCombination = (dragon, phoenix) => {
+    if (dragon.handRankId === phoenix.handRankId) {
+        for (let index = 0; index < dragon.combinationCards.length; index++) {
+            const rankA = dragon.combinationCards[index].rank || 13;
+            const rankB = phoenix.combinationCards[index].rank || 13;
             if (rankA !== rankB) {
                 return rankB - rankA;
             }
         }
-        for (let i = a.combinationCards.length; i < a.cards.length; i++) {
-            const rankA = a.cards[i].rank || 13;
-            const rankB = b.cards[i].rank || 13;
+        for (let i = dragon.combinationCards.length; i < dragon.cards.length; i++) {
+            const rankA = dragon.cards[i].rank || 13;
+            const rankB = phoenix.cards[i].rank || 13;
             if (rankA !== rankB) {
                 return rankB - rankA;
             }
@@ -113,30 +147,25 @@ export const checkCompareCombination = (a, b) => {
         return 0;
     }
 
-    return checkCompareCombinationOtherCase(a, b);
+    return checkCompareCombinationOtherCase(dragon, phoenix);
 };
 
-const checkCompareCombinationOtherCase = (a, b) => {
-    if (a.handRankId === ranks.highCard && a.isKiller235 && b.handRankId === ranks.threeOfAKind) {
-        a.handRankId = ranks.killer235;
-    }
+const checkCompareCombinationOtherCase = (dragon, phoenix) => {
+    const result = checkHandRankIDRule235(dragon, phoenix);
 
-    if (b.handRankId === ranks.highCard && b.isKiller235 && a.handRankId === ranks.threeOfAKind) {
-        b.handRankId = ranks.killer235;
-    }
-
-    return b.handRankId - a.handRankId;
+    return result.phoenix.handRankId - result.dragon.handRankId;
 };
 
-const generateRawResultForHash = ({ cards }) => {
-    let rawResult = "{";
-    rawResult +=
-        cards
-            .map((card) => {
-                return `${names[card.rank]}${suits[card.suit]}`;
-            })
-            .join(" ") + "}";
-    return rawResult;
+const checkHandRankIDRule235 = (dragon, phoenix) => {
+    if (dragon.handRankId === ranks.highCard && dragon.isKiller235 && phoenix.handRankId === ranks.threeOfAKind) {
+        dragon.handRankId = ranks.killer235;
+    }
+
+    if (phoenix.handRankId === ranks.highCard && phoenix.isKiller235 && dragon.handRankId === ranks.threeOfAKind) {
+        phoenix.handRankId = ranks.killer235;
+    }
+
+    return { dragon, phoenix };
 };
 
 export { generateResult, getSettlementResult, getCards, generateRawResultForHash };

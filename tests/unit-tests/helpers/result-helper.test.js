@@ -1,3 +1,4 @@
+import { names, ranks } from "../../../src/helpers/constants";
 import { generateResult, getSettlementResult, generateRawResultForHash } from "../../../src/helpers/result-helper";
 
 const cardSample = {
@@ -457,6 +458,230 @@ describe("ResultHelper", () => {
 
             // Assert
             expect(actual).toStrictEqual(expected);
+        });
+    });
+
+    describe("generate Result with Hand Rank ID", () => {
+        it("Return HighCard", () => {
+            // Arrange
+            const card1 = { rank: 0, suit: 0 };
+            const card2 = { rank: 10, suit: 1 };
+            const card3 = { rank: 5, suit: 2 };
+            const card4 = { rank: 11, suit: 3 };
+            const card5 = { rank: 7, suit: 1 };
+            const card6 = { rank: 12, suit: 1 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+
+            cardSample.data = cards;
+
+            // Act
+            const result = generateResult();
+
+            // Assert
+            expect(result.dragon.handRankId).toEqual(ranks.highCard);
+        });
+
+        it("Return Dragon killer 235", () => {
+            // Arrange
+            const card1 = { rank: 1, suit: 0 };
+            const card2 = { rank: 10, suit: 0 };
+            const card3 = { rank: 2, suit: 2 };
+            const card4 = { rank: 10, suit: 1 };
+            const card5 = { rank: 4, suit: 1 };
+            const card6 = { rank: 10, suit: 2 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+
+            cardSample.data = cards;
+
+            // Act
+            const result = generateResult();
+
+            // Assert
+            expect(result.dragon.handRankId).toEqual(ranks.killer235);
+        });
+
+        it("Return Phoenix killer 235", () => {
+            // Arrange
+            const card1 = { rank: 1, suit: 0 };
+            const card2 = { rank: 2, suit: 0 };
+            const card3 = { rank: 1, suit: 1 };
+            const card4 = { rank: 1, suit: 0 };
+            const card5 = { rank: 1, suit: 2 };
+            const card6 = { rank: 4, suit: 2 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+
+            cardSample.data = cards;
+
+            // Act
+            const result = generateResult();
+
+            // Assert
+            expect(result.phoenix.handRankId).toEqual(ranks.killer235);
+        });
+
+        it("Return without killer 235", () => {
+            // Arrange
+            const card1 = { rank: 1, suit: 0 };
+            const card2 = { rank: 10, suit: 0 };
+            const card3 = { rank: 2, suit: 2 };
+            const card4 = { rank: 10, suit: 1 };
+            const card5 = { rank: 4, suit: 1 };
+            const card6 = { rank: 11, suit: 2 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+
+            cardSample.data = cards;
+
+            // Act
+            const result = generateResult();
+
+            // Assert
+            expect(result.dragon.handRankId).not.toEqual(ranks.killer235);
+        });
+    });
+
+    describe("generate Result with Card Rank ID", () => {
+        describe("Return empty card rank Id with -1", () => {
+            it("With Three of a Kind", () => {
+                // Arrange
+                const card1 = { rank: 0, suit: 0 };
+                const card2 = { rank: 10, suit: 1 };
+                const card3 = { rank: 0, suit: 1 };
+                const card4 = { rank: 11, suit: 3 };
+                const card5 = { rank: 0, suit: 2 };
+                const card6 = { rank: 12, suit: 1 };
+                const cards = [card1, card2, card3, card4, card5, card6];
+                const expected = -1;
+
+                cardSample.data = cards;
+
+                // Act
+                const result = generateResult();
+
+                // Assert
+                expect(result.dragon.cardRankId).toEqual(expected);
+            });
+
+            it("With 235", () => {
+                // Arrange
+                const card1 = { rank: 0, suit: 0 };
+                const card2 = { rank: 1, suit: 0 };
+                const card3 = { rank: 0, suit: 1 };
+                const card4 = { rank: 2, suit: 3 };
+                const card5 = { rank: 0, suit: 2 };
+                const card6 = { rank: 4, suit: 1 };
+                const cards = [card1, card2, card3, card4, card5, card6];
+                const expected = -1;
+
+                cardSample.data = cards;
+
+                // Act
+                const result = generateResult();
+
+                // Assert
+                expect(result.phoenix.cardRankId).toEqual(expected);
+            });
+
+            it("With Straight", () => {
+                // Arrange
+                const card1 = { rank: 0, suit: 0 };
+                const card2 = { rank: 1, suit: 0 };
+                const card3 = { rank: 1, suit: 1 };
+                const card4 = { rank: 2, suit: 3 };
+                const card5 = { rank: 2, suit: 2 };
+                const card6 = { rank: 5, suit: 1 };
+                const cards = [card1, card2, card3, card4, card5, card6];
+                const expected = -1;
+
+                cardSample.data = cards;
+
+                // Act
+                const result = generateResult();
+
+                // Assert
+                expect(result.dragon.cardRankId).toEqual(expected);
+            });
+
+            it("With Flush", () => {
+                // Arrange
+                const card1 = { rank: 0, suit: 0 };
+                const card2 = { rank: 2, suit: 0 };
+                const card3 = { rank: 1, suit: 0 };
+                const card4 = { rank: 2, suit: 3 };
+                const card5 = { rank: 2, suit: 0 };
+                const card6 = { rank: 5, suit: 1 };
+                const cards = [card1, card2, card3, card4, card5, card6];
+                const expected = -1;
+
+                cardSample.data = cards;
+
+                // Act
+                const result = generateResult();
+
+                // Assert
+                expect(result.dragon.cardRankId).toEqual(expected);
+            });
+        });
+
+        describe("Return empty card rank Id with rank Card", () => {
+            it("With HighCard", () => {
+                // Arrange
+                const card1 = { rank: 0, suit: 0 };
+                const card2 = { rank: 10, suit: 1 };
+                const card3 = { rank: 4, suit: 1 };
+                const card4 = { rank: 11, suit: 3 };
+                const card5 = { rank: 7, suit: 2 };
+                const card6 = { rank: 2, suit: 1 };
+                const cards = [card1, card2, card3, card4, card5, card6];
+                const expected = card1.rank;
+
+                cardSample.data = cards;
+
+                // Act
+                const result = generateResult();
+
+                // Assert
+                expect(result.dragon.cardRankId).toEqual(expected);
+            });
+
+            it("With Pair 8 Plush", () => {
+                // Arrange
+                const card1 = { rank: 0, suit: 0 };
+                const card2 = { rank: 8, suit: 1 };
+                const card3 = { rank: 4, suit: 1 };
+                const card4 = { rank: 8, suit: 3 };
+                const card5 = { rank: 7, suit: 2 };
+                const card6 = { rank: 2, suit: 1 };
+                const cards = [card1, card2, card3, card4, card5, card6];
+                const expected = card2.rank;
+
+                cardSample.data = cards;
+
+                // Act
+                const result = generateResult();
+
+                // Assert
+                expect(result.phoenix.cardRankId).toEqual(expected);
+            });
+
+            it("With Pair", () => {
+                // Arrange
+                const card1 = { rank: 0, suit: 0 };
+                const card2 = { rank: 2, suit: 1 };
+                const card3 = { rank: 4, suit: 1 };
+                const card4 = { rank: 2, suit: 3 };
+                const card5 = { rank: 7, suit: 2 };
+                const card6 = { rank: 5, suit: 1 };
+                const cards = [card1, card2, card3, card4, card5, card6];
+                const expected = card2.rank;
+
+                cardSample.data = cards;
+
+                // Act
+                const result = generateResult();
+
+                // Assert
+                expect(result.phoenix.cardRankId).toEqual(expected);
+            });
         });
     });
 });
