@@ -168,4 +168,12 @@ const checkHandRankIDRule235 = (dragon, phoenix) => {
     return { dragon, phoenix };
 };
 
-export { generateResult, getSettlementResult, getCards, generateRawResultForHash };
+export {
+    generateResult,
+    getSettlementResult,
+    getCards,
+    generateRawResultForHash,
+    getCardRankId,
+    getCardCombination,
+    checkHandRankIDRule235,
+};
