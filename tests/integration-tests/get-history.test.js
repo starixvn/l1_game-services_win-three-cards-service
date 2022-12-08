@@ -27,7 +27,12 @@ export const getHistoryTest = () => {
                     odds: { dragon: 1.95, phoenix: 1.95, pair8Plus: 3, threeOfAKind: 121, straightFlush: 101, flush: 9, straight: 8 },
                     rate: 1,
                     phien: 111,
-                    betLogDetails: [],
+                    betLogDetails: [
+                        {
+                            amount: 100,
+                            choice: "dragon",
+                        },
+                    ],
                 },
                 {
                     dragon: 100,
@@ -44,7 +49,12 @@ export const getHistoryTest = () => {
                     odds: { dragon: 1.95, phoenix: 1.95, pair8Plus: 3, threeOfAKind: 121, straightFlush: 101, flush: 9, straight: 8 },
                     rate: 1,
                     phien: 111,
-                    betLogDetails: [],
+                    betLogDetails: [
+                        {
+                            amount: 100,
+                            choice: "dragon",
+                        },
+                    ],
                 },
             ];
 

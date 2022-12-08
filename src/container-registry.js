@@ -1,7 +1,7 @@
 import awilix from "awilix";
 import { Table } from "sc-game-base";
 
-import { bets, rounds, tmpBets, results } from "./models";
+import { bets, rounds, tmpBets, results, betLogs } from "./models";
 import { PlaceBetConsumer } from "./consumers";
 
 const { asClass, asValue } = awilix;
@@ -15,6 +15,7 @@ export default class ContainerRegistry extends Table.TableContainerRegistry {
             betsRepository: asValue(bets),
             tempBetsRepository: asValue(tmpBets),
             resultsRepository: asValue(results),
+            betLogsRepository: asValue(betLogs),
         });
     }
 

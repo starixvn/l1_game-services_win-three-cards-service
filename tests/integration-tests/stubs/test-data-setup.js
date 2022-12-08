@@ -12,8 +12,8 @@ import {
 } from "sc-game-service-integration-utils";
 
 import appConfigs from "../../../src/app-configs.IGT";
-import { rounds as WinThreeCardsRounds, bets } from "../../../src/models";
-import { currencyData, game, gameConfig, rounds, userBetData } from "./test-data";
+import { rounds as WinThreeCardsRounds, bets, betLogs as WinThreeCardsBetLogs } from "../../../src/models";
+import { currencyData, game, gameConfig, rounds, userBetData, betLogs } from "./test-data";
 
 const connectDatabase = async () => {
     console.log("connect database");
@@ -40,6 +40,7 @@ export const createTestData = async () => {
     await createCurrencyGroupGames(currency.groupId, game.id, gameConfig);
     await createDummyUsers(currency);
     await createRounds();
+    await createRoundsLogs();
     await createUserBetData();
 
     console.log("Create exchange rate, game config & dummy user for testing successfully!");
@@ -53,6 +54,10 @@ const getUserId = async (playerId) => {
 
 const createRounds = async () => {
     return WinThreeCardsRounds.insertMany(rounds);
+};
+const createRoundsLogs = async () => {
+    const userId = await getUserId(normalUser.playerId);
+    return WinThreeCardsBetLogs.insertMany(betLogs(userId));
 };
 
 const createUserBetData = async () => {

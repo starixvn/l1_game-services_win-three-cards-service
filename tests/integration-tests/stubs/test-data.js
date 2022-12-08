@@ -58,6 +58,24 @@ const rounds = [
     },
 ];
 
+const betLogs = (uid) => {
+    return [
+        {
+            uid: uid,
+            amount: 100,
+            freeBet: false,
+            roundId: 111,
+            name: "NormalUser",
+            choice: "dragon",
+            siteId: "111",
+            currency: "$US",
+            rate: 1,
+            operatorId: "dummy-operator-id",
+            playerId: 1,
+        },
+    ];
+};
+
 const userBetData = (uid) => {
     return [
         {
@@ -93,4 +111,4 @@ const userBetData = (uid) => {
     ];
 };
 
-export { game, currencyData, socketOptions, gameConfig, rounds, userBetData };
+export { game, currencyData, socketOptions, gameConfig, rounds, userBetData, betLogs };
