@@ -388,12 +388,7 @@ describe("ResultHelper", () => {
 
             // Assert
             expect(settlement.dragon).toEqual(expected);
-            expect(settlement.pair).toEqual(expected);
             expect(settlement.pair8Plus).toEqual(expected);
-            expect(settlement.flush).toEqual(expected);
-            expect(settlement.straightFlush).toEqual(expected);
-            expect(settlement.straight).toEqual(expected);
-            expect(settlement.threeOfAKind).toEqual(expected);
         });
 
         it("check Dragon and Phoenix same Pair return tie", () => {

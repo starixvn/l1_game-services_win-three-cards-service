@@ -75,22 +75,29 @@ const settlementRuleEntries = Object.entries({
         return cardCompare.choice !== betOptions.dragon && cardCompare.choice !== betOptions.phoenix;
     },
     threeOfAKind: (cardCompare) => {
-        return cardCompare.handRankId === ranks.threeOfAKind || cardCompare.isPair8Plus || false;
+        return cardCompare.handRankId === ranks.threeOfAKind || false;
     },
     straightFlush: (cardCompare) => {
-        return cardCompare.handRankId === ranks.straightFlush || cardCompare.isPair8Plus || false;
+        return cardCompare.handRankId === ranks.straightFlush || false;
     },
     flush: (cardCompare) => {
-        return cardCompare.handRankId === ranks.flush || cardCompare.isPair8Plus || false;
+        return cardCompare.handRankId === ranks.flush || false;
     },
     straight: (cardCompare) => {
-        return cardCompare.handRankId === ranks.straight || cardCompare.isPair8Plus || false;
+        return cardCompare.handRankId === ranks.straight || false;
     },
     pair: (cardCompare) => {
-        return cardCompare.handRankId === ranks.onePair || cardCompare.isPair8Plus || false;
+        return cardCompare.handRankId === ranks.onePair || false;
     },
     pair8Plus: (cardCompare) => {
-        return cardCompare.isPair8Plus ?? false;
+        return (
+            cardCompare.isPair8Plus ||
+            cardCompare.handRankId === ranks.flush ||
+            cardCompare.handRankId === ranks.straight ||
+            cardCompare.handRankId === ranks.threeOfAKind ||
+            cardCompare.handRankId === ranks.straightFlush ||
+            false
+        );
     },
     highCard: (cardCompare) => {
         return cardCompare.handRankId === ranks.highCard;
