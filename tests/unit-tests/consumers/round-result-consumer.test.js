@@ -3,7 +3,7 @@ import { Core } from "sc-game-base";
 import RoundResultConsumer from "../../../src/consumers/round-result-consumer";
 import { generateResult } from "../../../src/helpers/result-helper";
 
-describe("composeBettingTimeValidationCriteria tests", () => {
+describe("Round result consumer tests", () => {
     const playerName = "nhanvat01";
     const player = {
         UID: "123",
@@ -48,7 +48,7 @@ describe("composeBettingTimeValidationCriteria tests", () => {
 
     describe("when admin set Result", () => {
         it("return Result", () => {
-            // arrange
+            // Arrange
             gameData.gameConfigs.enabled = false;
             gameData.gameConfigs.randomMode = 1;
             gameData.settlementResultFromAdmin = {
@@ -87,10 +87,10 @@ describe("composeBettingTimeValidationCriteria tests", () => {
 
             const placeBetConsumer = new RoundResultConsumer(gameData, gameDefinition);
 
-            // act
+            // Act
             const criterions = placeBetConsumer.generateResult();
 
-            // assert
+            // Assert
             expect(criterions).not.toBeEmpty();
             expect(criterions.dragon.cards.card1.rank).toEqual(gameData.settlementResultFromAdmin.result.dragon.card1.rank);
         });
@@ -98,17 +98,50 @@ describe("composeBettingTimeValidationCriteria tests", () => {
 
     describe("when admin without set Result", () => {
         it.each([1, 2, 3])("Using mode (%p) - generateResult", (mode) => {
-            // arrange
+            // Arrange
             gameData.gameConfigs.enabled = false;
             gameData.gameConfigs.randomMode = mode;
+            gameData.settlementResultFromAdmin = {
+                result: {
+                    dragon: {
+                        card1: {
+                            rank: 1,
+                            suit: 0,
+                        },
+                        card2: {
+                            rank: 3,
+                            suit: 0,
+                        },
+                        card3: {
+                            rank: 5,
+                            suit: 0,
+                        },
+                    },
+                    phoenix: {
+                        card1: {
+                            rank: 2,
+                            suit: 0,
+                        },
+                        card2: {
+                            rank: 4,
+                            suit: 0,
+                        },
+                        card3: {
+                            rank: 6,
+                            suit: 0,
+                        },
+                    },
+                },
+                roundId: 2,
+            };
             gameDefinition.generateResult = generateResult;
 
             const placeBetConsumer = new RoundResultConsumer(gameData, gameDefinition);
 
-            // act
+            // Act
             const criterions = placeBetConsumer.generateResult();
 
-            // assert
+            // Assert
             expect(criterions).not.toBeEmpty();
         });
     });

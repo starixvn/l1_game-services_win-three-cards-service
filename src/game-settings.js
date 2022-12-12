@@ -1,5 +1,5 @@
 export default {
-    id: 61, // to be updated
+    id: 61,
     name: "WinThreeCards",
     durations: {
         wholeRound: 45,
@@ -7,7 +7,7 @@ export default {
         lockingBet: 5,
         dealCards: 2,
     },
-    choices: ["dragon", "phoenix", "tie", "pair8Plus", "threeOfAKind", "straightFlush", "flush", "straight"],
+    choices: ["dragon", "phoenix", "pair8Plus", "threeOfAKind", "straightFlush", "flush", "straight"],
     choicesMapper: { dragon: 1, phoenix: 2, tie: 3, pair8Plus: 4, threeOfAKind: 5, straightFlush: 6, flush: 7, straight: 8 },
     hedgeBetGroups: [["dragon", "phoenix"]],
     numberOfRoundHistory: 102,

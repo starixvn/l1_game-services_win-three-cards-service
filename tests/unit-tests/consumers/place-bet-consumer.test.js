@@ -4,7 +4,7 @@ import { Core } from "sc-game-base";
 
 import PlaceBetConsumer from "../../../src/consumers/place-bet-consumer";
 
-describe("composeBettingTimeValidationCriteria tests", () => {
+describe("Place bet consumer tests", () => {
     const playerName = "nhanvat01";
     const player = {
         UID: "123",
@@ -90,7 +90,7 @@ describe("composeBettingTimeValidationCriteria tests", () => {
 
     describe("when bet comes in shaking plate time", () => {
         it("should return placeBetNextRound notice", () => {
-            // arrange
+            // Arrange
             gameData.gameConfigs.enabled = true;
             gameData.remainingTime = chance.integer({
                 min: gameDefinition.durations.placingBets + gameDefinition.durations.dealCards + 1,
@@ -98,10 +98,10 @@ describe("composeBettingTimeValidationCriteria tests", () => {
             });
             const placeBetConsumer = new PlaceBetConsumer(gameDefinition, gameData);
 
-            // act
+            // Act
             const criterions = placeBetConsumer.composeBettingTimeValidationCriteria(1);
 
-            // assert
+            // Assert
             expect(criterions).not.toBeEmpty();
             expect(criterions.filter((x) => x.failure)[0]).toStrictEqual({
                 failure: true,
@@ -112,7 +112,7 @@ describe("composeBettingTimeValidationCriteria tests", () => {
 
     describe("when bet comes in settlement time", () => {
         it("should return cannotPlaceBet notice", () => {
-            // arrange
+            // Arrange
             gameData.gameConfigs.enabled = true;
             gameData.remainingTime = chance.integer({
                 min: gameDefinition.durations.placingBets,
@@ -120,10 +120,10 @@ describe("composeBettingTimeValidationCriteria tests", () => {
             });
             const placeBetConsumer = new PlaceBetConsumer(gameDefinition, gameData);
 
-            // act
+            // Act
             const criterions = placeBetConsumer.composeBettingTimeValidationCriteria(1);
 
-            // assert
+            // Assert
             expect(criterions).not.toBeEmpty();
             expect(criterions.filter((x) => x.failure)[0]).toStrictEqual({
                 failure: true,
@@ -134,7 +134,7 @@ describe("composeBettingTimeValidationCriteria tests", () => {
 
     describe("when roundId not match running round", () => {
         it("should return placeBetNextRound notice ", () => {
-            // arrange
+            // Arrange
             gameData.roundId = 2;
             gameData.gameConfigs.enabled = true;
             gameData.remainingTime = chance.integer({
@@ -143,10 +143,10 @@ describe("composeBettingTimeValidationCriteria tests", () => {
             });
             const placeBetConsumer = new PlaceBetConsumer(gameDefinition, gameData);
 
-            // act
+            // Act
             const criterions = placeBetConsumer.composeBettingTimeValidationCriteria(1);
 
-            // assert
+            // Assert
             expect(criterions).not.toBeEmpty();
             expect(criterions.filter((x) => x.failure)[0]).toStrictEqual({
                 failure: true,
@@ -157,7 +157,7 @@ describe("composeBettingTimeValidationCriteria tests", () => {
 
     describe("when valid", () => {
         it("should not return any failures", () => {
-            // arrange
+            // Arrange
             gameData.roundId = 1;
             gameData.gameConfigs.enabled = true;
             gameData.remainingTime = chance.integer({
@@ -166,10 +166,10 @@ describe("composeBettingTimeValidationCriteria tests", () => {
             });
             const placeBetConsumer = new PlaceBetConsumer(gameDefinition, gameData);
 
-            // act
+            // Act
             const criterions = placeBetConsumer.composeBettingTimeValidationCriteria(1);
 
-            // assert
+            // Assert
             expect(criterions.filter((x) => x.failure)).toBeEmpty();
         });
     });
