@@ -4,6 +4,7 @@ import { getCardCombination, checkHandRankIDRule235, getCardRankId } from "../he
 export default class RoundResultConsumer extends BaseRoundResultConsumer {
     generateResult() {
         const { roundId } = this.gameData;
+        const { randomMode } = this.gameData.gameConfigs;
         const resultFromAdmin = this.gameData.settlementResultFromAdmin;
 
         if (roundId === resultFromAdmin.roundId) {
@@ -31,7 +32,7 @@ export default class RoundResultConsumer extends BaseRoundResultConsumer {
                 cards: cards,
             };
         } else {
-            return this.definition.generateResult();
+            return this.definition.generateResult(randomMode);
         }
     }
 }
