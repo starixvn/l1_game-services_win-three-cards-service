@@ -4,7 +4,7 @@ const betLog = {
     uid: { type: String, required: true },
     name: { type: String, required: true },
 
-    choice: { type: String, required: true },
+    choice: { type: String },
     amount: { type: Number, default: 0, required: true },
 
     time: { type: Date },
@@ -21,6 +21,7 @@ const betLog = {
 
     clientSentTime: { type: Date },
     receivedTime: { type: Date },
+    rebet: { type: Boolean, default: false },
 };
 
 const Schema = new mongoose.Schema(betLog);

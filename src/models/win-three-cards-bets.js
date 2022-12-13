@@ -12,6 +12,8 @@ const bet = {
     flush: { type: Number, default: 0 },
     straight: { type: Number, default: 0 },
     pair8Plus: { type: Number, default: 0 },
+    totalAmount: { type: Number, default: 0 },
+    rebet: { type: Boolean, default: false },
 
     paid: { type: Boolean, default: false },
     betwin: { type: Number, default: 0 },

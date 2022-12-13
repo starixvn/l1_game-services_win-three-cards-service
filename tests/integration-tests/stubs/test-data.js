@@ -28,11 +28,45 @@ const gameConfig = {
         straight: 3000,
     },
     odds: { dragon: 1.95, phoenix: 1.95, pair8Plus: 3, threeOfAKind: 121, straightFlush: 101, flush: 9, straight: 8 },
+    choices_maxbet: {
+        dragon: 10000,
+        phoenix: 10000,
+        pair8Plus: 10000,
+        threeOfAKind: 10000,
+        straightFlush: 10000,
+        flush: 10000,
+        straight: 10000,
+    },
 };
 
 const rounds = [
     {
         id: 111,
+        result: {
+            dragon: {
+                cards: { card1: { rank: 0, suit: 0 }, card2: { rank: 0, suit: 0 }, card3: { rank: 0, suit: 0 } },
+                handRankId: 1,
+            },
+            phoenix: {
+                cards: { card1: { rank: 0, suit: 1 }, card2: { rank: 0, suit: 2 }, card3: { rank: 2, suit: 0 } },
+                handRankId: 0,
+            },
+        },
+        settlementResult: {
+            dragon: true,
+            phoenix: false,
+            tie: false,
+            threeOfAKind: true,
+            straightFlush: false,
+            flush: false,
+            straight: false,
+            pair8Plus: false,
+            killer235: false,
+        },
+        exchangeRateId: 1,
+    },
+    {
+        id: 110,
         result: {
             dragon: {
                 cards: { card1: { rank: 0, suit: 0 }, card2: { rank: 0, suit: 0 }, card3: { rank: 0, suit: 0 } },
@@ -79,6 +113,7 @@ const betLogs = (uid) => {
 const userBetData = (uid) => {
     return [
         {
+            freeBet: false,
             roundId: 111,
             uid: uid,
             betwin: 0,
@@ -87,13 +122,23 @@ const userBetData = (uid) => {
             name: "NormalUser",
             odd: 0,
             odds: gameConfig.odds,
-            operatorId: "dummy-partner-id",
+            operatorId: "dummy-operator-id",
+            partnerId: "dummy-operator-id",
+            playerId: 1,
             rate: 1,
             siteId: "111",
             paid: true,
             choice: "dragon",
+            totalAmount: 100,
+            phoenix: 0,
+            pair8Plus: 0,
+            threeOfAKind: 0,
+            straightFlush: 0,
+            flush: 0,
+            straight: 0,
         },
         {
+            freeBet: false,
             roundId: 111,
             uid: uid,
             betwin: 0,
@@ -102,11 +147,20 @@ const userBetData = (uid) => {
             name: "NormalUser",
             odd: 0,
             odds: gameConfig.odds,
-            operatorId: "dummy-partner-id",
+            operatorId: "dummy-operator-id",
+            partnerId: "dummy-operator-id",
+            playerId: 4,
             rate: 1,
             siteId: "111",
             paid: true,
             choice: "threeOfAKind",
+            totalAmount: 100,
+            dragon: 0,
+            phoenix: 0,
+            pair8Plus: 0,
+            straightFlush: 0,
+            flush: 0,
+            straight: 0,
         },
     ];
 };

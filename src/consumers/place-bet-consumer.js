@@ -1,29 +1,34 @@
 import BasePlaceBetConsumer from "sc-game-base/src/core/event-consumers/place-bet-consumer";
 import { helpers } from "sc-common";
 
+export const checkTimeValidationCriteria = (context, roundId) => {
+    const configs = context.gameData.gameConfigs;
+    const dealCardsTime = context.definition.durations.placingBets + context.definition.durations.dealCards;
+
+    return [
+        {
+            failure: !configs.enabled,
+            notice: context.getNoticeObj(helpers.noticeHelper.placeBetNextRound),
+        },
+        {
+            failure: roundId !== context.gameData.roundId,
+            notice: context.getNoticeObj(helpers.noticeHelper.invalidBet, { gameRoundId: roundId }),
+        },
+        {
+            failure:
+                context.gameData.remainingTime >= context.definition.durations.placingBets &&
+                context.gameData.remainingTime <= dealCardsTime,
+            notice: context.getNoticeObj(helpers.noticeHelper.cannotPlaceBet),
+        },
+        {
+            failure:
+                context.gameData.remainingTime < context.definition.durations.lockingBet || context.gameData.remainingTime > dealCardsTime,
+            notice: context.getNoticeObj(helpers.noticeHelper.placeBetNextRound),
+        },
+    ];
+};
 export default class PlaceBetConsumer extends BasePlaceBetConsumer {
     composeBettingTimeValidationCriteria(roundId) {
-        const configs = this.gameData.gameConfigs;
-        const dealCardsTime = this.definition.durations.placingBets + this.definition.durations.dealCards;
-
-        return [
-            {
-                failure: !configs.enabled,
-                notice: this.getNoticeObj(helpers.noticeHelper.placeBetNextRound),
-            },
-            {
-                failure: roundId !== this.gameData.roundId,
-                notice: this.getNoticeObj(helpers.noticeHelper.invalidBet, { gameRoundId: roundId }),
-            },
-            {
-                failure:
-                    this.gameData.remainingTime >= this.definition.durations.placingBets && this.gameData.remainingTime <= dealCardsTime,
-                notice: this.getNoticeObj(helpers.noticeHelper.cannotPlaceBet),
-            },
-            {
-                failure: this.gameData.remainingTime < this.definition.durations.lockingBet || this.gameData.remainingTime > dealCardsTime,
-                notice: this.getNoticeObj(helpers.noticeHelper.placeBetNextRound),
-            },
-        ];
+        return checkTimeValidationCriteria(this, roundId);
     }
 }

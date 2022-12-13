@@ -4,6 +4,7 @@ import { ingameTest } from "./ingame.test";
 import { settleTest } from "./settle.test";
 import { placeBetTest } from "./place-bet.test";
 import { getHistoryTest } from "./get-history.test";
+import { rebetTest } from "./rebet.test";
 
 let processStartService;
 const JEST_ASSERT_WAITING_RESPONSE_TIMEOUT = 120000;
@@ -29,5 +30,6 @@ afterAll(() => {
 signinTest();
 ingameTest();
 getHistoryTest();
+rebetTest();
 placeBetTest();
 settleTest();
