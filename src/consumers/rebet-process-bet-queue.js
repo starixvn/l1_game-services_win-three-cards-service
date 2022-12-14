@@ -4,14 +4,14 @@ export default class RebetProcessBetQueue extends Crons.TableProcessBetQueue {
     async insertBetLog(player, roundId, bet, rate) {
         if (bet.rebet) {
             return Object.entries(bet.lastBet).forEach(async ([choice, amount]) => {
-                let betTmp = { ...bet };
+                const betTmp = { ...bet };
                 betTmp.betChoice = choice;
                 betTmp.amount = amount;
                 await this.insertBetLogRecord(player, roundId, betTmp, rate, true);
             });
         }
 
-        return await this.insertBetLogRecord(player, roundId, bet, rate, false);
+        return this.insertBetLogRecord(player, roundId, bet, rate, false);
     }
 
     async insertBetLogRecord(player, roundId, bet, rate, rebet) {
@@ -25,6 +25,7 @@ export default class RebetProcessBetQueue extends Crons.TableProcessBetQueue {
             clientSentTime: bet.clientSentTime,
             receivedTime: bet.receivedTime,
             roundId,
+            rebet: rebet,
         };
 
         if (player.session) {
