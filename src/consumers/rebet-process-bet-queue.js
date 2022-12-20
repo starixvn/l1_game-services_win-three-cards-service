@@ -25,7 +25,7 @@ export default class RebetProcessBetQueue extends Crons.TableProcessBetQueue {
             clientSentTime: bet.clientSentTime,
             receivedTime: bet.receivedTime,
             roundId,
-            rebet: rebet,
+            rebet,
         };
 
         if (player.session) {

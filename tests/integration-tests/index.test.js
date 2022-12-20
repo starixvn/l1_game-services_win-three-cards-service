@@ -5,6 +5,7 @@ import { settleTest } from "./settle.test";
 import { placeBetTest } from "./place-bet.test";
 import { getHistoryTest } from "./get-history.test";
 import { rebetTest } from "./rebet.test";
+import { botTest } from "./bot.test";
 
 let processStartService;
 const JEST_ASSERT_WAITING_RESPONSE_TIMEOUT = 120000;
@@ -33,3 +34,4 @@ getHistoryTest();
 rebetTest();
 placeBetTest();
 settleTest();
+botTest();

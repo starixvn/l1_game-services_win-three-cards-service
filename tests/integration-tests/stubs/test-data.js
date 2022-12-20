@@ -37,6 +37,9 @@ const gameConfig = {
         flush: 10000,
         straight: 10000,
     },
+    botenabled: true,
+    hour_maxbot: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    bot_maxbet: 1000,
 };
 
 const rounds = [
