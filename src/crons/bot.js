@@ -7,12 +7,12 @@ export default class Bot extends Table.Crons.TableGameBot {
     constructor(definition, gameData, publisher, userInfosRepository, tempBetsRepository) {
         super(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
 
-        this.betChoiceRatio = { DragonPhoenixPair8Plus: 90, ThreeOfAKind: 1, StraightFlush: 2, FlushStraight: 7 };
-
-        this.dragonPhoenixPair8PlusOpts = ["dragon", "phoenix", "pair8Plus"];
-        this.threeOfAKindOpts = ["threeOfAKind"];
-        this.straightFlushOpts = ["straightFlush"];
+        this.betChoiceRatio = { DragonPhoenix: 77, Pair8Plus: 20, ThreeOfAKindStraightFlush: 1, FlushStraight: 2 };
+        this.dragonPhoenixOpts = ["dragon", "phoenix"];
+        this.pair8PlusOpts = ["pair8Plus"];
+        this.threeOfAKindStraightFlushOpts = ["threeOfAKind", "straightFlush"];
         this.flushStraightOpts = ["flush", "straight"];
+        this.smallTicketRatio = 70;
     }
 
     resetAllBotData() {
@@ -39,20 +39,19 @@ export default class Bot extends Table.Crons.TableGameBot {
 
         const betChoiceRatios = [
             {
-                group: this.dragonPhoenixPair8PlusOpts,
+                group: this.dragonPhoenixOpts,
                 underBetRatio:
-                    (this.getTotalAmountOnChoiceGroup(this.dragonPhoenixPair8PlusOpts) * 100) / totalBotBet <
-                    this.betChoiceRatio.DragonPhoenixPair8Plus,
+                    (this.getTotalAmountOnChoiceGroup(this.dragonPhoenixOpts) * 100) / totalBotBet < this.betChoiceRatio.DragonPhoenix,
             },
             {
-                group: this.threeOfAKindOpts,
-                underBetRatio:
-                    (this.getTotalAmountOnChoiceGroup(this.threeOfAKindOpts) * 100) / totalBotBet < this.betChoiceRatio.ThreeOfAKind,
+                group: this.pair8PlusOpts,
+                underBetRatio: (this.getTotalAmountOnChoiceGroup(this.pair8PlusOpts) * 100) / totalBotBet < this.betChoiceRatio.Pair8Plus,
             },
             {
-                group: this.straightFlushOpts,
+                group: this.threeOfAKindStraightFlushOpts,
                 underBetRatio:
-                    (this.getTotalAmountOnChoiceGroup(this.straightFlushOpts) * 100) / totalBotBet < this.betChoiceRatio.StraightFlush,
+                    (this.getTotalAmountOnChoiceGroup(this.threeOfAKindStraightFlushOpts) * 100) / totalBotBet <
+                    this.betChoiceRatio.ThreeOfAKindStraightFlush,
             },
             {
                 group: this.flushStraightOpts,
@@ -66,9 +65,9 @@ export default class Bot extends Table.Crons.TableGameBot {
         const choice =
             underRatioGroups.length > 0
                 ? this.getRandomChoiceFromGroup(underRatioGroups[0].group)
-                : this.getRandomChoiceFromGroup(this.dragonPhoenixPair8PlusOpts);
+                : this.getRandomChoiceFromGroup(this.dragonPhoenixOpts);
 
-        const previousUniqueChoices = bot.choices.filter((betChoice) => this.dragonPhoenixPair8PlusOpts.includes(betChoice));
+        const previousUniqueChoices = bot.choices.filter((betChoice) => this.dragonPhoenixOpts.includes(betChoice));
 
         return previousUniqueChoices.length > 0 ? previousUniqueChoices[0] : choice;
     }
@@ -80,13 +79,13 @@ export default class Bot extends Table.Crons.TableGameBot {
         const botMaxBet = gameConfigs.bot_maxbet;
         const maxBet = Math.min(maxBetPerChoice, botMaxBet);
 
-        if (this.dragonPhoenixPair8PlusOpts.includes(choice) || this.flushStraightOpts.includes(choice)) {
+        if (this.dragonPhoenixOpts.includes(choice) || this.pair8PlusOpts.includes(choice)) {
             const isSmallTicket = this.totalTickets === 0 ? true : (this.smallTickets * 100) / this.totalTickets < this.smallTicketRatio;
             const maxBetOfSmallTicket = Math.min(minBet * 50, botMaxBet * 0.3);
             return isSmallTicket ? maxBetOfSmallTicket : maxBet;
         }
 
-        return Math.min(minBet * 50, maxBet * 0.2);
+        return Math.min(minBet * 10, maxBet * 0.2);
     }
 
     getRandomChoiceFromGroup(group) {

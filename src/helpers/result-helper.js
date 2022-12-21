@@ -126,10 +126,6 @@ const getCardRankId = (rankId, cardCompare) => {
         case ranks.flush:
         case ranks.killer235:
             return -1;
-
-        case ranks.onePair:
-            return cardCompare.combinationCards[0].rank;
-
         default:
             return cardCompare.combinationCards[0].rank;
     }
