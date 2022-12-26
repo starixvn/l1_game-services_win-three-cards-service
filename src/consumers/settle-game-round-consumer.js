@@ -2,32 +2,33 @@ import { Table } from "sc-game-base";
 
 export default class SettleGameRoundConsumer extends Table.EventConsumers.TableSettleGameRoundConsumer {
     calculateBetResult(settlementResult, bet, odds) {
-        const { choices } = this.definition;
+        let isTie = false;
+        Object.entries(settlementResult).forEach(([choice, win]) => {
+            if (win && choice === "tie") {
+                isTie = true;
+            }
+        });
         const betResult = Object.entries(settlementResult).reduce(
             (result, [choice, win]) => {
-                if (choice === "tie" && win) {
-                    let betAmount = 0;
-                    choices.forEach((mainChoice) => {
-                        betAmount += bet[mainChoice] ?? 0;
-                    });
+                let winAmount = 0;
+                const betAmount = bet[choice] ?? 0;
+                if (isTie) {
+                    winAmount = betAmount;
+                } else {
+                    const originalOdds = odds[choice] || 1;
+                    const effectiveOdds = bet.freeBet ? originalOdds - 1 : originalOdds;
+                    winAmount = win ? betAmount * effectiveOdds : 0;
 
-                    result.totalWin = betAmount;
+                    if (winAmount > 0) {
+                        result.netWin += winAmount - betAmount;
+                    } else {
+                        result.totalLost += betAmount;
+                    }
                 }
 
-                const betAmount = bet[choice] ?? 0;
-                const originalOdds = odds[choice] || 1;
-                const effectiveOdds = bet.freeBet ? originalOdds - 1 : originalOdds;
-                const winAmount = win ? betAmount * effectiveOdds : 0;
-
-                result.totalBetAmount += betAmount;
                 result.totalWin += winAmount;
                 result.winningByChoices[choice] = winAmount;
-
-                if (winAmount > 0) {
-                    result.netWin += winAmount - betAmount;
-                } else {
-                    result.totalLost += betAmount;
-                }
+                result.totalBetAmount += betAmount;
 
                 return result;
             },
