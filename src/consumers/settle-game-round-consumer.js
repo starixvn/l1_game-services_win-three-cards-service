@@ -2,17 +2,11 @@ import { Table } from "sc-game-base";
 
 export default class SettleGameRoundConsumer extends Table.EventConsumers.TableSettleGameRoundConsumer {
     calculateBetResult(settlementResult, bet, odds) {
-        let isTie = false;
-        Object.entries(settlementResult).forEach(([choice, win]) => {
-            if (win && choice === "tie") {
-                isTie = true;
-            }
-        });
         const betResult = Object.entries(settlementResult).reduce(
             (result, [choice, win]) => {
                 let winAmount = 0;
                 const betAmount = bet[choice] ?? 0;
-                if (isTie) {
+                if (settlementResult.tie) {
                     winAmount = betAmount;
                 } else {
                     const originalOdds = odds[choice] || 1;

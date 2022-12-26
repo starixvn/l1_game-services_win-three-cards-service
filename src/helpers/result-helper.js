@@ -37,11 +37,15 @@ const getSettlementResult = (roundResult) => {
     if (settleResult > 0) {
         cardValidate = phoenix;
     } else if (settleResult === 0) {
-        cardValidate.choice = "tie";
+        cardValidate.choice = betOptions.tie;
     }
 
     return settlementRuleEntries.reduce((result, [choice, rule]) => {
-        result[choice] = rule(cardValidate);
+        if (cardValidate.choice === betOptions.tie) {
+            result[choice] = choice === betOptions.tie ? true : false;
+        } else {
+            result[choice] = rule(cardValidate);
+        }
 
         return result;
     }, {});
@@ -103,7 +107,7 @@ const settlementRuleEntries = Object.entries({
         return cardCompare.handRankId === ranks.highCard;
     },
     killer235: (cardCompare) => {
-        return cardCompare.isKiller235 ?? false;
+        return cardCompare.isKiller235 || false;
     },
 });
 

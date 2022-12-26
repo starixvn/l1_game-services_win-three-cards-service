@@ -11,6 +11,7 @@ const ranks = {
 const betOptions = {
     dragon: "dragon",
     phoenix: "phoenix",
+    tie: "tie",
 };
 
 const names = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];

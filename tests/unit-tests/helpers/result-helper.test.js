@@ -76,15 +76,21 @@ describe("ResultHelper", () => {
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
-            const expected = true;
 
             // Act
             const result = generateResult();
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.phoenix).toEqual(expected);
-            expect(settlement.highCard).toEqual(expected);
+            expect(settlement.phoenix).toBeTrue;
+            expect(settlement.dragon).toBeFalse;
+            expect(settlement.highCard).toBeTrue;
+            expect(settlement.tie).toBeFalse;
+            expect(settlement.threeOfAKind).toBeFalse;
+            expect(settlement.straight).toBeFalse;
+            expect(settlement.straightFlush).toBeFalse;
+            expect(settlement.pair).toBeFalse;
+            expect(settlement.pair8Plus).toBeFalse;
         });
 
         it("check dragon Pair and phoenix High card return dragon Win", () => {
@@ -98,15 +104,20 @@ describe("ResultHelper", () => {
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
-            const expected = true;
 
             // Act
             const result = generateResult();
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.dragon).toEqual(expected);
-            expect(settlement.pair).toEqual(expected);
+            expect(settlement.dragon).toBeTrue;
+            expect(settlement.pair).toBeTrue;
+            expect(settlement.phoenix).toBeFalse;
+            expect(settlement.threeOfAKind).toBeFalse;
+            expect(settlement.straight).toBeFalse;
+            expect(settlement.straightFlush).toBeFalse;
+            expect(settlement.pair).toBeFalse;
+            expect(settlement.pair8Plus).toBeFalse;
         });
 
         it("check Dragon Three of a Kind and Phoenix Straight flush return Dragon Win", () => {
@@ -120,15 +131,16 @@ describe("ResultHelper", () => {
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
-            const expected = true;
 
             // Act
             const result = generateResult();
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.dragon).toEqual(expected);
-            expect(settlement.threeOfAKind).toEqual(expected);
+            expect(settlement.dragon).toBeTrue;
+            expect(settlement.threeOfAKind).toBeTrue;
+            expect(settlement.phoenix).toBeFalse;
+            expect(settlement.tie).toBeFalse;
         });
 
         it("check Dragon Straight Flush and Phoenix Flush return Dragon Win", () => {
@@ -142,15 +154,16 @@ describe("ResultHelper", () => {
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
-            const expected = true;
 
             // Act
             const result = generateResult();
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.dragon).toEqual(expected);
-            expect(settlement.straightFlush).toEqual(expected);
+            expect(settlement.dragon).toBeTrue;
+            expect(settlement.straightFlush).toBeTrue;
+            expect(settlement.phoenix).toBeFalse;
+            expect(settlement.tie).toBeFalse;
         });
 
         it("check Dragon Flush and Phoenix Straight return Dragon Win", () => {
@@ -164,15 +177,16 @@ describe("ResultHelper", () => {
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
-            const expected = true;
 
             // Act
             const result = generateResult();
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.dragon).toEqual(expected);
-            expect(settlement.flush).toEqual(expected);
+            expect(settlement.dragon).toBeTrue;
+            expect(settlement.flush).toBeTrue;
+            expect(settlement.phoenix).toBeFalse;
+            expect(settlement.tie).toBeFalse;
         });
 
         it("check Dragon High Card and Phoenix 235 return Dragon Win", () => {
@@ -186,15 +200,16 @@ describe("ResultHelper", () => {
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
-            const expected = true;
 
             // Act
             const result = generateResult();
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.dragon).toEqual(expected);
-            expect(settlement.highCard).toEqual(expected);
+            expect(settlement.dragon).toBeTrue;
+            expect(settlement.highCard).toBeTrue;
+            expect(settlement.phoenix).toBeFalse;
+            expect(settlement.tie).toBeFalse;
         });
 
         it("check Dragon Three of a Kind and Phoenix 235 same 2 suit return Phoenix win", () => {
@@ -208,15 +223,16 @@ describe("ResultHelper", () => {
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
-            const expected = true;
 
             // Act
             const result = generateResult();
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.phoenix).toEqual(expected);
-            expect(settlement.killer235).toEqual(expected);
+            expect(settlement.phoenix).toBeTrue;
+            expect(settlement.killer235).toBeTrue;
+            expect(settlement.dragon).toBeFalse;
+            expect(settlement.tie).toBeFalse;
         });
 
         it("check Dragon Three of a Kind and Phoenix 235 different suit return Phoenix win", () => {
@@ -230,15 +246,16 @@ describe("ResultHelper", () => {
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
-            const expected = true;
 
             // Act
             const result = generateResult();
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.phoenix).toEqual(expected);
-            expect(settlement.killer235).toEqual(expected);
+            expect(settlement.phoenix).toBeTrue;
+            expect(settlement.killer235).toBeTrue;
+            expect(settlement.dragon).toBeFalse;
+            expect(settlement.tie).toBeFalse;
         });
 
         it("check Dragon 235 all same suit (not 235) and Phoenix Three of a Kind return Phoenix win", () => {
@@ -252,14 +269,15 @@ describe("ResultHelper", () => {
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
-            const expected = true;
 
             // Act
             const result = generateResult();
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.phoenix).toEqual(expected);
+            expect(settlement.phoenix).toBeTrue;
+            expect(settlement.dragon).toBeFalse;
+            expect(settlement.tie).toBeFalse;
         });
 
         it("check Dragon and Phoenix Three of a Kind return Three of a Kind bigger", () => {
@@ -273,15 +291,16 @@ describe("ResultHelper", () => {
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
-            const expected = true;
 
             // Act
             const result = generateResult();
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.dragon).toEqual(expected);
-            expect(settlement.threeOfAKind).toEqual(expected);
+            expect(settlement.dragon).toBeTrue;
+            expect(settlement.threeOfAKind).toBeTrue;
+            expect(settlement.phoenix).toBeFalse;
+            expect(settlement.tie).toBeFalse;
         });
 
         it("check Dragon and Phoenix Straight Flush return Straight Flush bigger", () => {
@@ -295,14 +314,15 @@ describe("ResultHelper", () => {
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
-            const expected = true;
 
             // Act
             const result = generateResult();
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.phoenix).toEqual(expected);
+            expect(settlement.phoenix).toBeTrue;
+            expect(settlement.dragon).toBeFalse;
+            expect(settlement.tie).toBeFalse;
         });
 
         it("check Dragon and Phoenix Pair same value return Pair which one card remain bigger", () => {
@@ -316,14 +336,15 @@ describe("ResultHelper", () => {
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
-            const expected = true;
 
             // Act
             const result = generateResult();
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.phoenix).toEqual(expected);
+            expect(settlement.phoenix).toBeTrue;
+            expect(settlement.dragon).toBeFalse;
+            expect(settlement.tie).toBeFalse;
         });
 
         it("check Dragon and Phoenix High Card return High Card which one card remain bigger", () => {
@@ -337,14 +358,15 @@ describe("ResultHelper", () => {
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
-            const expected = true;
 
             // Act
             const result = generateResult();
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.phoenix).toEqual(expected);
+            expect(settlement.phoenix).toBeTrue;
+            expect(settlement.dragon).toBeFalse;
+            expect(settlement.tie).toBeFalse;
         });
 
         it("check two High Card same rank return tie", () => {
@@ -358,15 +380,53 @@ describe("ResultHelper", () => {
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
-            const expected = true;
 
             // Act
             const result = generateResult();
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.tie).toEqual(expected);
-            expect(settlement.highCard).toEqual(expected);
+            expect(settlement.tie).toBeTrue;
+            expect(settlement.highCard).toBeFalse;
+            expect(settlement.threeOfAKind).toBeFalse;
+            expect(settlement.pair8Plus).toBeFalse;
+            expect(settlement.flush).toBeFalse;
+            expect(settlement.straightFlush).toBeFalse;
+            expect(settlement.straight).toBeFalse;
+            expect(settlement.phoenix).toBeFalse;
+            expect(settlement.dragon).toBeFalse;
+            expect(settlement.pair).toBeFalse;
+            expect(settlement.killer235).toBeFalse;
+        });
+
+        it("check two 235 same rank return tie", () => {
+            // Arrange
+            const card1 = { rank: 1, suit: 0 };
+            const card2 = { rank: 1, suit: 1 };
+            const card3 = { rank: 2, suit: 1 };
+            const card4 = { rank: 2, suit: 0 };
+            const card5 = { rank: 4, suit: 2 };
+            const card6 = { rank: 4, suit: 2 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+
+            cardSample.data = cards;
+
+            // Act
+            const result = generateResult();
+            const settlement = getSettlementResult(result);
+
+            // Assert
+            expect(settlement.tie).toBeTrue;
+            expect(settlement.highCard).toBeFalse;
+            expect(settlement.threeOfAKind).toBeFalse;
+            expect(settlement.pair8Plus).toBeFalse;
+            expect(settlement.flush).toBeFalse;
+            expect(settlement.straightFlush).toBeFalse;
+            expect(settlement.straight).toBeFalse;
+            expect(settlement.phoenix).toBeFalse;
+            expect(settlement.dragon).toBeFalse;
+            expect(settlement.pair).toBeFalse;
+            expect(settlement.killer235).toBeFalse;
         });
 
         it("check Dragon Pair 8 Plush and Phoenix Hight Card return Dragon", () => {
@@ -380,15 +440,16 @@ describe("ResultHelper", () => {
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
-            const expected = true;
 
             // Act
             const result = generateResult();
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.dragon).toEqual(expected);
-            expect(settlement.pair8Plus).toEqual(expected);
+            expect(settlement.dragon).toBeTrue;
+            expect(settlement.pair8Plus).toBeTrue;
+            expect(settlement.phoenix).toBeFalse;
+            expect(settlement.tie).toBeFalse;
         });
 
         it("check Dragon and Phoenix same Pair return tie", () => {
@@ -402,15 +463,15 @@ describe("ResultHelper", () => {
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
-            const expected = true;
 
             // Act
             const result = generateResult();
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.tie).toEqual(expected);
-            expect(settlement.pair).toEqual(expected);
+            expect(settlement.tie).toBeTruthy;
+            expect(settlement.dragon).toBeFalse;
+            expect(settlement.phoenix).toBeFalse;
         });
 
         it("check Dragon Straight bigger rank A and Phoenix Straight bigger rank K return Dragon", () => {
@@ -424,15 +485,16 @@ describe("ResultHelper", () => {
             const cards = [card1, card2, card3, card4, card5, card6];
 
             cardSample.data = cards;
-            const expected = true;
 
             // Act
             const result = generateResult();
             const settlement = getSettlementResult(result);
 
             // Assert
-            expect(settlement.dragon).toEqual(expected);
-            expect(settlement.straight).toEqual(expected);
+            expect(settlement.dragon).toBeTrue;
+            expect(settlement.straight).toBeTrue;
+            expect(settlement.phoenix).toBeFalse;
+            expect(settlement.tie).toBeFalse;
         });
     });
 
