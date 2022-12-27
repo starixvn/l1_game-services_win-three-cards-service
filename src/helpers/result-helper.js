@@ -175,6 +175,27 @@ const checkHandRankIDRule235 = (dragon, phoenix) => {
     return { dragon, phoenix };
 };
 
+const countUniqueBetUser = (betUserArr) => {
+    return [...new Set(betUserArr)].length;
+};
+
+const calculateBetUserPercentage = (betUserCount) => {
+    if (!betUserCount) {
+        return {};
+    }
+
+    const choices = Object.keys(betUserCount);
+    const total = Object.values(betUserCount).reduce((accumulator, currentValue) => accumulator + countUniqueBetUser(currentValue), 0);
+
+    return total > 0
+        ? choices.reduce((result, choice) => {
+              result[choice] = parseFloat(((countUniqueBetUser(betUserCount[choice]) * 100) / total).toFixed(2));
+
+              return result;
+          }, {})
+        : {};
+};
+
 export {
     generateResult,
     getSettlementResult,
@@ -183,4 +204,5 @@ export {
     getCardRankId,
     getCardCombination,
     checkHandRankIDRule235,
+    calculateBetUserPercentage,
 };

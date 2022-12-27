@@ -122,4 +122,15 @@ export default class Bot extends Table.Crons.TableGameBot {
         this.allBets[choice] = this.allBets[choice] ? this.allBets[choice] + amount : amount;
         this.smallTickets += this.isSmallTicket(amount) ? 1 : 0;
     }
+
+    updateBalanceAndPublishBetPayload(botId, choice, amount, balance) {
+        if (this.definition.commonChoices.includes(choice)) {
+            if (!this.gameData.betUserCount[choice]) {
+                this.gameData.betUserCount[choice] = [];
+            }
+            this.gameData.betUserCount[choice].push(botId);
+        }
+
+        super.updateBalanceAndPublishBetPayload(botId, choice, amount, balance);
+    }
 }

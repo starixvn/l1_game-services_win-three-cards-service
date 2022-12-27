@@ -43,5 +43,23 @@ export const botTest = () => {
                 }
             });
         });
+
+        it("should receive bot bets percentage", (done) => {
+            // Arrange
+            const gameServiceClient = new GameClientDriver(socketOptions, initUserSession(normalUser));
+
+            // Act
+            gameServiceClient.handleSignedInEvent(() => {
+                gameServiceClient.sendInGameEvent();
+            });
+
+            // Assert
+            gameServiceClient.handleInGameEvent((data) => {
+                if (data.betPercentage && (data.betPercentage.phoenix || data.betPercentage.dragon)) {
+                    gameServiceClient.close();
+                    done();
+                }
+            });
+        });
     });
 };
