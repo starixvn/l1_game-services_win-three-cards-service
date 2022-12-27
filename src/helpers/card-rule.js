@@ -103,6 +103,9 @@ export default class CardRule {
         const suit = this.suit(3).length > 0;
         const cards = this.sortCards(this.cards);
         const isKiller235 = this.checkExist235(cards) && (this.suit(2).length > 0 || this.suit(3).length === 0);
+        if (sequence && margin.min.rank === 1 && margin.max.rank === 0) {
+            cards.push(cards.shift());
+          }
 
         return {
             sequence: sequence !== false,

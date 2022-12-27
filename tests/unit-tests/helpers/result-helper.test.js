@@ -496,6 +496,28 @@ describe("ResultHelper", () => {
             expect(settlement.phoenix).toBeFalse;
             expect(settlement.tie).toBeFalse;
         });
+
+        it("check Dragon Straight with 234 and Phoenix Straight with A23 return Dragon", () => {
+            // Arrange
+            const card1 = { rank: 1, suit: 0 };
+            const card2 = { rank: 0, suit: 1 };
+            const card3 = { rank: 2, suit: 2 };
+            const card4 = { rank: 1, suit: 3 };
+            const card5 = { rank: 3, suit: 1 };
+            const card6 = { rank: 2, suit: 1 };
+            const cards = [card1, card2, card3, card4, card5, card6];
+
+            cardSample.data = cards;
+
+            // Act
+            const result = generateResult();
+            const settlement = getSettlementResult(result);
+
+            // Assert
+            expect(settlement.dragon).toBeTrue;
+            expect(settlement.straight).toBeTrue;
+            expect(settlement.phoenix).toBeFalse;
+        });
     });
 
     describe("generate RawResultForHash", () => {
