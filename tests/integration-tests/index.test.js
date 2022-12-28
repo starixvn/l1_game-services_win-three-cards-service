@@ -32,6 +32,6 @@ signinTest();
 ingameTest();
 getHistoryTest();
 rebetTest();
-// placeBetTest();
-// settleTest();
+placeBetTest();
+settleTest();
 botTest();

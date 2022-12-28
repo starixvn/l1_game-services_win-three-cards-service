@@ -77,31 +77,31 @@ export const placeBetTest = () => {
             });
         });
 
-        // it("should return bet user percentage", (done) => {
-        //     // Arrange
-        //     const client = new GameClientDriver(socketOptions, initUserSession(normalUser));
-        //     client.handleSignedInEvent(() => {
-        //         client.sendInGameEvent();
-        //     });
-        //     let receivedRemainingTime = false;
+        it("should return bet user percentage", (done) => {
+            // Arrange
+            const client = new GameClientDriver(socketOptions, initUserSession(normalUser));
+            client.handleSignedInEvent(() => {
+                client.sendInGameEvent();
+            });
+            let receivedRemainingTime = false;
 
-        //     // Act
-        //     client.on(socketOptions.gameName, (inGameData) => {
-        //         if (inGameData.remainingTime && !receivedRemainingTime) {
-        //             receivedRemainingTime = true;
-        //             setTimeout(() => {
-        //                 client.emit(eventTypes.bet, { betChoice: "dragon", amount: 100 });
-        //             }, getTimeOutToBet(inGameData.remainingTime, gameSettings.durations) * 1000);
-        //         }
-        //     });
+            // Act
+            client.on(socketOptions.gameName, (inGameData) => {
+                if (inGameData.remainingTime && !receivedRemainingTime) {
+                    receivedRemainingTime = true;
+                    setTimeout(() => {
+                        client.emit(eventTypes.bet, { betChoice: "dragon", amount: 100 });
+                    }, getTimeOutToBet(inGameData.remainingTime, gameSettings.durations) * 1000);
+                }
+            });
 
-        //     // Assert
-        //     client.on(socketOptions.gameName, (data) => {
-        //         if (data.betPercentage && data.betPercentage.dragon > 0) {
-        //             client.close();
-        //             done();
-        //         }
-        //     });
-        // });
+            // Assert
+            client.on(socketOptions.gameName, (data) => {
+                if (data.betPercentage && data.betPercentage.dragon > 0) {
+                    client.close();
+                    done();
+                }
+            });
+        });
     });
 };

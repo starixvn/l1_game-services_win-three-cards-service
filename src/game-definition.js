@@ -1,6 +1,6 @@
 import { Table } from "sc-game-base";
 
-export default class TableGameDefinition extends Table.TableGameDefinition {
+export default class GameDefinition extends Table.TableGameDefinition {
     constructor(
         {
             id = 0,
@@ -14,12 +14,14 @@ export default class TableGameDefinition extends Table.TableGameDefinition {
             commonChoices = [],
         },
         generateResult,
-        settle
+        settle,
+        generateRawResultForHash
     ) {
         super(
             { id, name, durations, choices, choicesMapper, hedgeBetGroups, numberOfRoundHistory, historyPageSize },
             generateResult,
-            settle
+            settle,
+            generateRawResultForHash
         );
         this.commonChoices = commonChoices;
     }
