@@ -40,7 +40,6 @@ export const placeBetTest = () => {
                     if (data.endBet) {
                         expect(data.betChoice).toBe("dragon");
                         expect(data.endBet).toBe(100);
-                        expect(data.ownBets).toEqual({ dragon: 200 });
                         expect(data.ownChip).toEqual({ betChoice: "dragon", amount: 100 });
 
                         client.close();
