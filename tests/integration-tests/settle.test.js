@@ -19,5 +19,21 @@ export const settleTest = () => {
                 }
             });
         });
+
+        it("should return winners when settled", (done) => {
+            // Arrange & Act
+            const client = new GameClientDriver(socketOptions, initUserSession(normalUser));
+            client.handleSignedInEvent(() => {
+                client.sendInGameEvent();
+            });
+
+            // Assert
+            client.on(socketOptions.gameName, (data) => {
+                if (data.winners) {
+                    client.close();
+                    done();
+                }
+            });
+        });
     });
 };

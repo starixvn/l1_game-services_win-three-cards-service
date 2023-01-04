@@ -5,7 +5,7 @@ import { bets, rounds, tmpBets, results, betLogs } from "./models";
 import { PlaceBetConsumer, RoundResultConsumer, SettleGameRoundConsumer, RebetConsumer, InGameConsumer } from "./consumers";
 import { RebetContainerRegistry } from "sc-rebet-mode";
 import { Bot, GameCron, TableProcessBetQueue } from "./crons";
-import { RunningRoundInfoPublisher } from "./publishers";
+import { RunningRoundInfoPublisher, RoundResultPublisher } from "./publishers";
 
 const { asClass, asValue } = awilix;
 
@@ -61,6 +61,7 @@ export default class ContainerRegistry extends Table.TableContainerRegistry {
 
         this.container.register({
             runningRoundInfoPublisher: asClass(RunningRoundInfoPublisher).singleton(),
+            roundResultPublisher: asClass(RoundResultPublisher).singleton(),
         });
     }
 }
