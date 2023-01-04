@@ -11,7 +11,7 @@ import {
     InGameConsumer,
 } from "./consumers";
 import { RebetContainerRegistry } from "sc-rebet-mode";
-import { Bot, ProcessBetQueue } from "./crons";
+import { Bot, ProcessBetQueue, GameCron } from "./crons";
 import { RunningRoundInfoPublisher } from "./publishers";
 
 const { asClass, asValue } = awilix;
@@ -57,6 +57,7 @@ export default class ContainerRegistry extends Table.TableContainerRegistry {
         super.registerCrons();
 
         this.container.register({
+            gameCron: asClass(GameCron).singleton().proxy(),
             bot: asClass(Bot).singleton(),
             processBetQueue: asClass(ProcessBetQueue).singleton().proxy(),
         });
