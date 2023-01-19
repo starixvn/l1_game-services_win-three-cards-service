@@ -4,7 +4,17 @@ export default class TableProcessBetQueue extends Crons.TableProcessBetQueue {
     adjustTotalBets(player, bet, rate) {
         super.adjustTotalBets(player, bet, rate);
 
-        const { betChoice } = bet;
+        if (bet.rebet) {
+            Object.entries(bet?.lastBet).forEach(([betChoice]) => {
+                this.handleBetUserCount(betChoice, player);
+            });
+            return;
+        }
+
+        this.handleBetUserCount(bet?.betChoice, player);
+    }
+
+    handleBetUserCount(betChoice, player) {
         if (this.definition.commonChoices.includes(betChoice)) {
             if (!this.gameData.betUserCount[betChoice]) {
                 this.gameData.betUserCount[betChoice] = [];
