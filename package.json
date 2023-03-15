@@ -26,11 +26,12 @@
         "nodemon": "^2.0.4",
         "random": "^3.0.6",
         "random-js": "^2.1.0",
-        "sc-game-base": "3.3.0",
+        "sc-game-base": "3.2.6-beta.3",
         "sc-rebet-mode": "1.0.2"
     },
     "resolutions": {
-        "sc-game-base": "3.3.0"
+        "sc-game-base": "3.2.6-beta.3",
+        "sc-base-database": "1.11.1"
     },
     "devDependencies": {
         "@babel/core": "^7.0.0",
