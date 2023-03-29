@@ -7946,7 +7946,7 @@ sc-base-database@1.10.1:
     mongoose "^5.9.25"
     sc-common "1.8.1"
 
-sc-common@1.8.1:
+sc-common@1.8.1, sc-common@^1.8.1:
   version "1.8.1"
   resolved "http://npm.lumigame.com/sc-common/-/sc-common-1.8.1.tgz#c79e6131011b541baab8d775ff53b3b081ff8221"
   integrity sha512-78bocqv9txbr8jyi83CjANBpLN+ZFcyvRQVQJvsBU+8ZNnqibx9m5p/yUMPNX1miMyi53+4ELQtB5kmr689Q5Q==
