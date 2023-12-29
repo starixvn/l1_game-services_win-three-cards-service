@@ -20,7 +20,7 @@ const bet = {
     time: { type: Date },
     odds: { type: Object },
 
-    playerId: { type: Number },
+    playerId: { type: String },
     siteId: { type: String },
     freeBet: { type: Boolean, default: false },
 };

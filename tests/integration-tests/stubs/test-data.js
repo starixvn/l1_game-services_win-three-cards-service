@@ -108,7 +108,7 @@ const betLogs = (uid) => {
             currency: "$US",
             rate: 1,
             operatorId: "dummy-operator-id",
-            playerId: 1,
+            playerId: "1",
         },
     ];
 };
@@ -127,7 +127,7 @@ const userBetData = (uid) => {
             odds: gameConfig.odds,
             operatorId: "dummy-operator-id",
             partnerId: "dummy-operator-id",
-            playerId: 1,
+            playerId: "1",
             rate: 1,
             siteId: "111",
             paid: true,
@@ -152,7 +152,7 @@ const userBetData = (uid) => {
             odds: gameConfig.odds,
             operatorId: "dummy-operator-id",
             partnerId: "dummy-operator-id",
-            playerId: 4,
+            playerId: "4",
             rate: 1,
             siteId: "111",
             paid: true,
