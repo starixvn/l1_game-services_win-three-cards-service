@@ -42,8 +42,6 @@ export default class SettleGameRoundConsumer extends Table.EventConsumers.TableS
     }
 
     async settleBets({ result, settlementResult, roundId, time }) {
-        this.roundResultPublisher.publishRoundResult(this.collectRoundResult(result, settlementResult, roundId));
-
         const bets = await this.queryBets(roundId);
 
         if (bets && bets.length) {
@@ -64,7 +62,5 @@ export default class SettleGameRoundConsumer extends Table.EventConsumers.TableS
                 })
             );
         }
-
-        this.roundResultPublisher.publishWinners(roundId, this.gameData.winningPlayers);
     }
 }
